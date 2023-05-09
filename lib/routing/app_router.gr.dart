@@ -1,97 +1,79 @@
-// **************************************************************************
-// AutoRouteGenerator
-// **************************************************************************
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
-// AutoRouteGenerator
+// AutoRouterGenerator
 // **************************************************************************
-//
+
 // ignore_for_file: type=lint
+// coverage:ignore-file
 
-// ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i4;
-import 'package:flutter/material.dart' as _i5;
-import 'package:tasty_cook/screens/firs_screen.dart' as _i2;
-import 'package:tasty_cook/screens/second_screen.dart' as _i3;
-import 'package:tasty_cook/screens/third_screen.dart' as _i1;
+part of 'app_router.dart';
 
-class AppRouter extends _i4.RootStackRouter {
-  AppRouter([_i5.GlobalKey<_i5.NavigatorState>? navigatorKey])
-      : super(navigatorKey);
+abstract class _$AppRouter extends RootStackRouter {
+  // ignore: unused_element
+  _$AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i4.PageFactory> pagesMap = {
-    ThirdScreen.name: (routeData) {
-      return _i4.AdaptivePage<dynamic>(
+  final Map<String, PageFactory> pagesMap = {
+    SignInRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.ThirdScreen(),
+        child: const SignInScreen(),
       );
     },
-    FirstScreen.name: (routeData) {
-      return _i4.AdaptivePage<dynamic>(
+    SignUpRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.FirstScreen(),
+        child: const SignUpScreen(),
       );
     },
-    SecondScreen.name: (routeData) {
-      return _i4.AdaptivePage<dynamic>(
+    ResetPasswordRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.SecondScreen(),
+        child: const ResetPasswordScreen(),
       );
     },
   };
-
-  @override
-  List<_i4.RouteConfig> get routes => [
-        _i4.RouteConfig(
-          ThirdScreen.name,
-          path: '/',
-        ),
-        _i4.RouteConfig(
-          FirstScreen.name,
-          path: '/first-screen',
-        ),
-        _i4.RouteConfig(
-          SecondScreen.name,
-          path: '/second-screen',
-        ),
-      ];
 }
 
 /// generated route for
-/// [_i1.ThirdScreen]
-class ThirdScreen extends _i4.PageRouteInfo<void> {
-  const ThirdScreen()
+/// [SignInScreen]
+class SignInRoute extends PageRouteInfo<void> {
+  const SignInRoute({List<PageRouteInfo>? children})
       : super(
-          ThirdScreen.name,
-          path: '/',
+          SignInRoute.name,
+          initialChildren: children,
         );
 
-  static const String name = 'ThirdScreen';
+  static const String name = 'SignInRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i2.FirstScreen]
-class FirstScreen extends _i4.PageRouteInfo<void> {
-  const FirstScreen()
+/// [SignUpScreen]
+class SignUpRoute extends PageRouteInfo<void> {
+  const SignUpRoute({List<PageRouteInfo>? children})
       : super(
-          FirstScreen.name,
-          path: '/first-screen',
+          SignUpRoute.name,
+          initialChildren: children,
         );
 
-  static const String name = 'FirstScreen';
+  static const String name = 'SignUpRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i3.SecondScreen]
-class SecondScreen extends _i4.PageRouteInfo<void> {
-  const SecondScreen()
+/// [ResetPasswordScreen]
+class ResetPasswordRoute extends PageRouteInfo<void> {
+  const ResetPasswordRoute({List<PageRouteInfo>? children})
       : super(
-          SecondScreen.name,
-          path: '/second-screen',
+          ResetPasswordRoute.name,
+          initialChildren: children,
         );
 
-  static const String name = 'SecondScreen';
+  static const String name = 'ResetPasswordRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }

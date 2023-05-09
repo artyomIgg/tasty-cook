@@ -1,15 +1,21 @@
-import 'package:auto_route/annotations.dart';
-import 'package:tasty_cook/screens/firs_screen.dart';
-import 'package:tasty_cook/screens/second_screen.dart';
-import 'package:tasty_cook/screens/third_screen.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:tasty_cook/screens/reset_password_screen/reset_password_screen.dart';
+import 'package:tasty_cook/screens/sign_in_screen/sign_in_screen.dart';
+import 'package:tasty_cook/screens/sign_up_screen/sign_up_screen.dart';
 
-@AdaptiveAutoRouter(
-  replaceInRouteName: 'Page,Route',
-  routes: <AutoRoute>[
-    AutoRoute(page: ThirdScreen, initial: true),
-    AutoRoute(page: FirstScreen),
-    AutoRoute(page: SecondScreen),
-  ],
-)
-// extend the generated private router
-class $AppRouter {}
+part 'app_router.gr.dart';
+
+@AutoRouterConfig(replaceInRouteName: 'Screen,Route')
+class AppRouter extends _$AppRouter {
+  @override
+  List<AutoRoute> get routes => [
+        AutoRoute(
+          path: '/sign-in',
+          page: SignInRoute.page,
+          initial: true,
+        ),
+        AutoRoute(page: SignUpRoute.page),
+        AutoRoute(page: ResetPasswordRoute.page),
+      ];
+}
+

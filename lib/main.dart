@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:tasty_cook/routing/app_router.gr.dart';
+import 'package:tasty_cook/init/app_init.dart';
 import 'package:tasty_cook/screens/home.dart';
 
-void main() {
-  final AppRouter appRouter = AppRouter();
+import 'routing/app_route_init.dart';
+import 'services/localization_service/localization_service.dart';
+
+void main() async {
+  await AppInit.appInit();
 
   runApp(
-    Home(
-      appRouter: appRouter,
+    LocalizationService.localizationWidget(
+      child: Home(
+        appRouter: AppRouteInit.initAppRoute(),
+      ),
     ),
   );
 }

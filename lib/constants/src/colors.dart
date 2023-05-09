@@ -16,7 +16,7 @@ mixin Colors {
   static const Color darkGrey = Color(0xff1b1b1b);
   static const Color primaryGrey = Color(0xff4A4A4A);
   static const Color white = Color(0xffffffff);
-  static const Color black = Color(0xFFBE0200);
+  static const Color black = Color(0xff171717);
   static const Color lightRed = Color(0xffFF1E1C);
   static const Color redHover = Color(0xffff3c3a);
 }
