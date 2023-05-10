@@ -34,4 +34,10 @@ mixin Styles {
     fontSize: 12,
     color: c.Colors.brightYellow,
   );
+
+  static TextStyle error = GoogleFonts.poppins(
+    fontSize: 12,
+    color: c.Colors.redHover,
+    fontWeight: FontWeight.w500,
+  );
 }

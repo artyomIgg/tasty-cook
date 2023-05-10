@@ -1,17 +1,23 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tasty_cook/bloc/sign_in_cubit.dart';
 import 'package:tasty_cook/routing/app_router.dart';
 import 'package:tasty_cook/widgets/logo_widget.dart';
 import 'package:tasty_cook/widgets/main_button.dart';
-import 'package:tasty_cook/widgets/my_text_filed.dart';
+import 'package:tasty_cook/widgets/text_fields/my_text_filed.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 
 class SignInScreenBody extends StatelessWidget {
-  const SignInScreenBody({super.key});
+  SignInScreenBody({super.key});
+
+  final TextEditingController _emailEditingController = TextEditingController();
+  final TextEditingController _passwordEditingController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +35,9 @@ class SignInScreenBody extends StatelessWidget {
               _logoWidget(),
               const Expanded(child: SizedBox()),
               Expanded(
-                flex: 12,
+                flex: 20,
                 child: _content(),
               ),
-              // const Expanded(child: SizedBox()),
               _footer(context),
             ],
           ),
@@ -62,52 +67,67 @@ class SignInScreenBody extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-            decoration: BoxDecoration(
-              color: Colors.white30,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(8),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  spreadRadius: 1,
-                  blurRadius: 2,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: textFieldHeight,
-                  child: MyTextField(
-                    hintText: 'Email',
-                    style: constants.Styles.textFieldBlack,
+          BlocBuilder<SignInCubit, SignInState>(
+            builder: (context, state) {
+              return Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white30,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(8),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 2,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: textFieldHeight,
+                      child: MyTextField(
+                        controller: _emailEditingController,
+                        hintText: 'Email',
+                        style: constants.Styles.textFieldBlack,
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: textFieldHeight,
+                      child: MyTextField(
+                        controller: _passwordEditingController,
+                        hintText: 'Password',
+                        style: constants.Styles.textFieldBlack,
+                      ),
+                    ),
+                    if (state is SignInError) ...[
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(state.error, style: constants.Styles.error,),
+                    ],
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 60),
+                      child: MainButton(
+                        text: 'Sign In',
+                        onPressed: () => _onSignIn(context),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: textFieldHeight,
-                  child: MyTextField(
-                    hintText: 'Password',
-                    style: constants.Styles.textFieldBlack,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 60),
-                  child: MainButton(
-                    text: 'Sign In',
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           ),
           const SizedBox(
             height: 12,
@@ -171,5 +191,15 @@ class SignInScreenBody extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _onSignIn(BuildContext context) {
+    final String email = _emailEditingController.text;
+    final String password = _passwordEditingController.text;
+
+    final SignInCubit activationCodeCubit =
+    BlocProvider.of<SignInCubit>(context);
+
+    activationCodeCubit.signIn(email, password);
   }
 }

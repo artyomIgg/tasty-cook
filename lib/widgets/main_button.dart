@@ -6,15 +6,19 @@ class MainButton extends StatelessWidget {
   const MainButton({
     super.key,
     required this.text,
+    required this.onPressed,
   });
 
   final String text;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
       padding: EdgeInsets.zero,
-      onPressed: null,
+      onPressed: () {
+        onPressed!();
+      },
       child: Container(
         height: 40,
         alignment: Alignment.center,
