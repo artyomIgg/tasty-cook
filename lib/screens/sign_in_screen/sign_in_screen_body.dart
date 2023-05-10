@@ -199,6 +199,11 @@ class SignInScreenBody extends StatelessWidget {
     final SignInCubit activationCodeCubit =
     BlocProvider.of<SignInCubit>(context);
 
-    activationCodeCubit.signIn(email, password);
+    final bool isSignIn = activationCodeCubit.signIn(email, password);
+
+    //TODO
+    // if(isSignIn) {
+      context.router.push(const MainRoute());
+    // }
   }
 }

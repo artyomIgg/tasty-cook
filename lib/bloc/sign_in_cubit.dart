@@ -11,11 +11,12 @@ class SignInCubit extends Cubit<SignInState> {
     emit(SignInInitial());
   }
 
-  void signIn(String email, String password) {
+  bool signIn(String email, String password) {
     const String error = 'Wrong email or password';
-    email == 'test@gmail.com' && password == 'qwe123qwe'
-        ? emit(SignInSuccess())
-        : emit(SignInError(error));
+    final bool result = email == 'test@gmail.com' && password == 'qwe123qwe';
+    result ? emit(SignInSuccess()) : emit(SignInError(error));
+
+    return result;
   }
 
   bool signUp({

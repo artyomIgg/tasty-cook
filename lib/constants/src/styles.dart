@@ -15,6 +15,12 @@ mixin Styles {
     color: c.Colors.white,
   );
 
+  static TextStyle mainScreenTitle = GoogleFonts.poppins(
+    fontSize: 26,
+    color: c.Colors.white,
+    fontWeight: FontWeight.w500,
+  );
+
   static TextStyle textFieldBlack = GoogleFonts.poppins(
     fontSize: 15,
     color: c.Colors.black,
@@ -44,6 +50,12 @@ mixin Styles {
   static TextStyle errorSmall = GoogleFonts.poppins(
     fontSize: 10,
     color: c.Colors.redHover,
+    fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle listTileMainScreen = GoogleFonts.poppins(
+    fontSize: 14,
+    color: c.Colors.white,
     fontWeight: FontWeight.w500,
   );
 }
