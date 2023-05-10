@@ -11,4 +11,10 @@ class TextValidator {
 
     return hasDigit.hasMatch(password) && hasMinLength.hasMatch(password);
   }
+
+  static bool isUsernameValid(String username) {
+    final RegExp hasMinLength = RegExp(r'^.{5,}$');
+
+    return hasMinLength.hasMatch(username);
+  }
 }

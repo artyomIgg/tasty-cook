@@ -40,4 +40,10 @@ mixin Styles {
     color: c.Colors.redHover,
     fontWeight: FontWeight.w500,
   );
+
+  static TextStyle errorSmall = GoogleFonts.poppins(
+    fontSize: 10,
+    color: c.Colors.redHover,
+    fontWeight: FontWeight.w500,
+  );
 }

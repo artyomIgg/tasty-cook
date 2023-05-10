@@ -7,11 +7,54 @@ part 'sign_in_state.dart';
 class SignInCubit extends Cubit<SignInState> {
   SignInCubit() : super(SignInInitial());
 
+  void restartCubit() {
+    emit(SignInInitial());
+  }
+
   void signIn(String email, String password) {
     const String error = 'Wrong email or password';
     email == 'test@gmail.com' && password == 'qwe123qwe'
         ? emit(SignInSuccess())
         : emit(SignInError(error));
+  }
+
+  bool signUp({
+    required String email,
+    required String username,
+    required String password,
+    required String repeatedPassword,
+  }) {
+    final bool isEmailValid = TextValidator.isEmailValid(email);
+    final bool isUsernameValid = TextValidator.isUsernameValid(username);
+    final bool isPasswordValid = TextValidator.isPasswordValid(password);
+    final bool isRepeatedPasswordValid =
+        isRepeatedPasswords(password, repeatedPassword);
+
+    if (isEmailValid &&
+        isUsernameValid &&
+        isPasswordValid &&
+        isRepeatedPasswordValid) {
+      return true;
+    } else {
+      final String emailError = isEmailValid ? '' : 'Wrong email';
+      final String usernameError = isUsernameValid ? '' : 'Wrong username';
+      final String passwordError = isPasswordValid
+          ? ''
+          : 'Password must be at least 6 characters and one number';
+      final String repeatedPasswordError =
+          isRepeatedPasswordValid ? '' : 'Password does not match';
+
+      emit(
+        SignUpError(
+          emailError,
+          usernameError,
+          passwordError,
+          repeatedPasswordError,
+        ),
+      );
+    }
+
+    return false;
   }
 
   void validateEmail(String email) {
@@ -32,10 +75,13 @@ class SignInCubit extends Cubit<SignInState> {
         : emit(PasswordValidationError(error));
   }
 
-  void isRepeatedPasswords(String password1, String password2) {
+  bool isRepeatedPasswords(String password1, String password2) {
     const String error = 'Password does not match';
-    password1 == password2
+    final bool result = password1 == password2;
+    result
         ? emit(RepeatedPasswordSuccess())
         : emit(RepeatedPasswordError(error));
+
+    return result;
   }
 }

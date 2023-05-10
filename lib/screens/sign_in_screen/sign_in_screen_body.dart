@@ -11,6 +11,7 @@ import 'package:tasty_cook/widgets/logo_widget.dart';
 import 'package:tasty_cook/widgets/main_button.dart';
 import 'package:tasty_cook/widgets/text_fields/my_text_filed.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
+import 'package:tasty_cook/widgets/text_fields/passwrod_text_field.dart';
 
 class SignInScreenBody extends StatelessWidget {
   SignInScreenBody({super.key});
@@ -102,10 +103,8 @@ class SignInScreenBody extends StatelessWidget {
                     ),
                     SizedBox(
                       height: textFieldHeight,
-                      child: MyTextField(
+                      child: PasswordTextField(
                         controller: _passwordEditingController,
-                        hintText: 'Password',
-                        style: constants.Styles.textFieldBlack,
                       ),
                     ),
                     if (state is SignInError) ...[

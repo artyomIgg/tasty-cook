@@ -14,6 +14,23 @@ class SignInError extends SignInState {
   SignInError(this.error);
 }
 
+// SIGN UP
+class SignUpSuccess extends SignInState {}
+
+class SignUpError extends SignInState {
+  final String emailError;
+  final String usernameError;
+  final String passwordError;
+  final String repeatedPasswordError;
+
+  SignUpError(
+    this.emailError,
+    this.usernameError,
+    this.passwordError,
+    this.repeatedPasswordError,
+  );
+}
+
 // EMAIL
 class EmailValidatorError extends SignInState {
   final String error;
@@ -44,5 +61,3 @@ class RepeatedPasswordError extends SignInState {
 
   RepeatedPasswordError(this.error);
 }
-
-

@@ -12,6 +12,9 @@ class MyTextField extends TextFormField {
     Color color = constants.Colors.white,
     super.style,
     super.onChanged,
+    super.obscureText,
+    super.enableSuggestions,
+    super.autocorrect,
   }) : super(
           decoration: InputDecoration(
             // labelText: hintText,
