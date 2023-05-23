@@ -58,4 +58,15 @@ mixin Styles {
     color: c.Colors.white,
     fontWeight: FontWeight.w500,
   );
+
+  static TextStyle recipeCardTitle = GoogleFonts.poppins(
+    fontSize: 16,
+    color: c.Colors.white,
+    fontWeight: FontWeight.w500,
+  );
+  static TextStyle recipeCardDescription = GoogleFonts.poppins(
+    fontSize: 10,
+    color: c.Colors.white,
+    fontWeight: FontWeight.w500,
+  );
 }

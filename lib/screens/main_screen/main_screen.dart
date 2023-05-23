@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:searchfield/searchfield.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tasty_cook/routing/app_router.dart';
 import 'package:tasty_cook/screens/main_screen/main_screen_body.dart';
@@ -16,7 +17,43 @@ class MainScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('TastyCook', style: constants.Styles.mainScreenTitle),
+          // title: Text('TastyCook', style: constants.Styles.mainScreenTitle),
+          title: SizedBox(
+            height: 32,
+            child: SearchField(
+              suggestions: List<SearchFieldListItem>.generate(
+                20,
+                (index) => SearchFieldListItem(
+                  index.toString(),
+                  item: index,
+                  child: Text(
+                    index.toString(),
+                  ),
+                ),
+              ),
+              searchInputDecoration: InputDecoration(
+                icon: const Icon(
+                  Icons.search,
+                  color: constants.Colors.white,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.white.withOpacity(0.8),
+                    width: 2,
+                  ),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                    width: 2,
+                  ),
+                ),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
           backgroundColor: constants.Colors.primaryYellow,
           shadowColor: Colors.transparent,
         ),
@@ -38,7 +75,10 @@ class MainScreen extends StatelessWidget {
                     Icons.person,
                     color: constants.Colors.white,
                   ),
-                  title: Text('My profile', style: constants.Styles.listTileMainScreen,),
+                  title: Text(
+                    'My profile',
+                    style: constants.Styles.listTileMainScreen,
+                  ),
                   onTap: () {
                     context.router.push(const MyProfileRoute());
                   },
@@ -48,7 +88,10 @@ class MainScreen extends StatelessWidget {
                     Icons.settings,
                     color: constants.Colors.white,
                   ),
-                  title: Text('Settings', style: constants.Styles.listTileMainScreen,),
+                  title: Text(
+                    'Settings',
+                    style: constants.Styles.listTileMainScreen,
+                  ),
                   onTap: () {
                     context.router.push(const SettingsRoute());
                   },
@@ -58,7 +101,10 @@ class MainScreen extends StatelessWidget {
                     Icons.logout,
                     color: constants.Colors.white,
                   ),
-                  title: Text('Log out', style: constants.Styles.listTileMainScreen,),
+                  title: Text(
+                    'Log out',
+                    style: constants.Styles.listTileMainScreen,
+                  ),
                   onTap: () {
                     context.router.pop();
                     context.router.pop();
