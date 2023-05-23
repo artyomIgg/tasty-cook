@@ -203,7 +203,7 @@ class SignInScreenBody extends StatelessWidget {
 
     //TODO
     // if(isSignIn) {
-      context.router.push(const MainRoute());
+      context.router.replace(const MainRoute());
     // }
   }
 }

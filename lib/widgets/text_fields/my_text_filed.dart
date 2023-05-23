@@ -15,13 +15,19 @@ class MyTextField extends TextFormField {
     super.obscureText,
     super.enableSuggestions,
     super.autocorrect,
+    InputBorder? enabledBorder,
+    InputBorder? focusedBorder,
+    Widget? icon,
+    Color? iconColor,
   }) : super(
           decoration: InputDecoration(
             // labelText: hintText,
             hintText: hintText,
             filled: true,
             fillColor: color,
-            enabledBorder: const OutlineInputBorder(
+            icon: icon,
+            iconColor: iconColor,
+            enabledBorder: enabledBorder ?? const OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
                   8.0,
@@ -32,7 +38,7 @@ class MyTextField extends TextFormField {
                 width: 2,
               ),
             ),
-            focusedBorder: const OutlineInputBorder(
+            focusedBorder: focusedBorder ?? const OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(
                   8.0,

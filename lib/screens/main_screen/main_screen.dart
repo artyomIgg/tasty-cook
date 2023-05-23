@@ -1,121 +1,116 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:searchfield/searchfield.dart';
-import 'package:sizer/sizer.dart';
-import 'package:tasty_cook/routing/app_router.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:tasty_cook/screens/add_recipe/add_recipe_screen.dart';
 import 'package:tasty_cook/screens/main_screen/main_screen_body.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
-import 'package:tasty_cook/widgets/logo_widget.dart';
+import 'package:tasty_cook/screens/my_profile_screen/my_profile_screen.dart';
+import 'package:tasty_cook/screens/search_screen/search_screen.dart';
+import 'package:tasty_cook/screens/settings_screen/settings_screen.dart';
+import 'package:tasty_cook/widgets/text_fields/my_search_widget.dart';
 
 @RoutePage()
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  MainScreen({super.key});
+
+  final PersistentTabController _controller = PersistentTabController();
+
+  List<Widget> _buildScreens(BuildContext context) {
+    return [
+      _mainScreen(context),
+      const SearchScreen(),
+      const AddRecipeScreen(),
+      const MyProfileScreen(),
+      const SettingsScreen(),
+    ];
+  }
+
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        icon: const Icon(
+          CupertinoIcons.home,
+          color: constants.Colors.white,
+        ),
+        title: ("Home"),
+        activeColorPrimary: constants.Colors.primaryYellow,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(
+          CupertinoIcons.search,
+          color: constants.Colors.white,
+        ),
+        title: ("Search"),
+        activeColorPrimary: constants.Colors.primaryYellow,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(
+          CupertinoIcons.add_circled,
+          color: constants.Colors.white,
+        ),
+        title: ("Add Recipe"),
+        activeColorPrimary: constants.Colors.primaryYellow,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(
+          CupertinoIcons.person,
+          color: constants.Colors.white,
+        ),
+        title: ("My Profile"),
+        activeColorPrimary: constants.Colors.primaryYellow,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(
+          CupertinoIcons.settings,
+          color: constants.Colors.white,
+        ),
+        title: ("Settings"),
+        activeColorPrimary: constants.Colors.primaryYellow,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          // title: Text('TastyCook', style: constants.Styles.mainScreenTitle),
-          title: SizedBox(
-            height: 32,
-            child: SearchField(
-              suggestions: List<SearchFieldListItem>.generate(
-                20,
-                (index) => SearchFieldListItem(
-                  index.toString(),
-                  item: index,
-                  child: Text(
-                    index.toString(),
-                  ),
-                ),
-              ),
-              searchInputDecoration: InputDecoration(
-                icon: const Icon(
-                  Icons.search,
-                  color: constants.Colors.white,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white.withOpacity(0.8),
-                    width: 2,
-                  ),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                    width: 2,
-                  ),
-                ),
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-          backgroundColor: constants.Colors.primaryYellow,
-          shadowColor: Colors.transparent,
+      child: PersistentTabView(
+        context,
+        controller: _controller,
+        screens: _buildScreens(context),
+        items: _navBarsItems(),
+        backgroundColor: constants.Colors.primaryBlack,
+        navBarStyle: NavBarStyle.style12,
+        screenTransitionAnimation: const ScreenTransitionAnimation(
+          animateTabTransition: true,
         ),
-        drawer: SizedBox(
-          width: 60.w,
-          child: Drawer(
-            backgroundColor: constants.Colors.primaryGrey,
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                const DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: constants.Colors.primaryGrey,
-                  ),
-                  child: LogoWidget(),
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.person,
-                    color: constants.Colors.white,
-                  ),
-                  title: Text(
-                    'My profile',
-                    style: constants.Styles.listTileMainScreen,
-                  ),
-                  onTap: () {
-                    context.router.push(const MyProfileRoute());
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.settings,
-                    color: constants.Colors.white,
-                  ),
-                  title: Text(
-                    'Settings',
-                    style: constants.Styles.listTileMainScreen,
-                  ),
-                  onTap: () {
-                    context.router.push(const SettingsRoute());
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.logout,
-                    color: constants.Colors.white,
-                  ),
-                  title: Text(
-                    'Log out',
-                    style: constants.Styles.listTileMainScreen,
-                  ),
-                  onTap: () {
-                    context.router.pop();
-                    context.router.pop();
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-        body: const MainScreenBody(),
       ),
+    );
+  }
+
+  Widget _mainScreen(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: SizedBox(
+          height: 32,
+          child: CupertinoButton(
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              _controller.jumpToTab(1);
+            },
+            child: const IgnorePointer(child: MySearchWidget()),
+          ),
+        ),
+        backgroundColor: constants.Colors.primaryYellow,
+        shadowColor: Colors.transparent,
+      ),
+      body: const MainScreenBody(),
     );
   }
 }
