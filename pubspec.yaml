@@ -63,6 +63,9 @@ dependencies:
   # system
   image_picker: ^0.8.7+5
 
+  # firebase
+  firebase_core: ^2.13.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
