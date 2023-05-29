@@ -15,6 +15,11 @@ mixin Styles {
     color: c.Colors.white,
   );
 
+  static TextStyle title18 = GoogleFonts.poppins(
+    fontSize: 18,
+    color: c.Colors.white,
+  );
+
   static TextStyle mainScreenTitle = GoogleFonts.poppins(
     fontSize: 26,
     color: c.Colors.white,

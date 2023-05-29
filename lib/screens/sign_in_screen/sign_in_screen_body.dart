@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tasty_cook/bloc/sign_in_cubit.dart';
+import 'package:tasty_cook/bloc/sign_in_cubit/sign_in_cubit.dart';
 import 'package:tasty_cook/routing/app_router.dart';
 import 'package:tasty_cook/widgets/logo_widget.dart';
 import 'package:tasty_cook/widgets/main_button.dart';
@@ -203,7 +203,7 @@ class SignInScreenBody extends StatelessWidget {
 
     //TODO
     // if(isSignIn) {
-      context.router.replace(const MainRoute());
+      context.router.replace(MainRoute());
     // }
   }
 }

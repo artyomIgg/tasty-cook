@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tasty_cook/screens/add_recipe/add_recipe_screen.dart';
+import 'package:tasty_cook/screens/add_recipe_create/add_recipe_create_screen.dart';
 import 'package:tasty_cook/screens/main_screen/main_screen.dart';
 import 'package:tasty_cook/screens/my_profile_screen/my_profile_screen.dart';
 import 'package:tasty_cook/screens/recipe_screen/recipe_screen.dart';
 import 'package:tasty_cook/screens/reset_password_screen/reset_password_screen.dart';
+import 'package:tasty_cook/screens/search_screen/search_screen.dart';
 import 'package:tasty_cook/screens/settings_screen/settings_screen.dart';
 import 'package:tasty_cook/screens/sign_in_screen/sign_in_screen.dart';
 import 'package:tasty_cook/screens/sign_up_screen/sign_up_screen.dart';
@@ -25,6 +28,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: MyProfileRoute.page),
         AutoRoute(page: SettingsRoute.page),
         AutoRoute(page: RecipeRoute.page),
+        AutoRoute(page: AddRecipeCreateRoute.page),
       ];
 }
-
