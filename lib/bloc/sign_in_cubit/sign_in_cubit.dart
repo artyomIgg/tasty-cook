@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 import 'package:tasty_cook/utils/text_validators/text_validator.dart';
 
@@ -84,5 +85,20 @@ class SignInCubit extends Cubit<SignInState> {
         : emit(RepeatedPasswordError(error));
 
     return result;
+  }
+
+  Future googleSignIn() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+    if (googleSignInAccount == null) {
+      return null;
+    }
   }
 }

@@ -37,7 +37,7 @@ class SignInScreenBody extends StatelessWidget {
               const Expanded(child: SizedBox()),
               Expanded(
                 flex: 20,
-                child: _content(),
+                child: _content(context),
               ),
               _footer(context),
             ],
@@ -54,7 +54,7 @@ class SignInScreenBody extends StatelessWidget {
     );
   }
 
-  Widget _content() {
+  Widget _content(BuildContext context) {
     const double textFieldHeight = 40;
 
     return Padding(
@@ -138,7 +138,7 @@ class SignInScreenBody extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          SignInButton(Buttons.Google, onPressed: () => null),
+          SignInButton(Buttons.Google, onPressed: () => _onGoogleSignIn(context)),
         ],
       ),
     );
@@ -196,14 +196,21 @@ class SignInScreenBody extends StatelessWidget {
     final String email = _emailEditingController.text;
     final String password = _passwordEditingController.text;
 
-    final SignInCubit activationCodeCubit =
+    final SignInCubit signInCubit =
     BlocProvider.of<SignInCubit>(context);
 
-    final bool isSignIn = activationCodeCubit.signIn(email, password);
+    final bool isSignIn = signInCubit.signIn(email, password);
 
     //TODO
     // if(isSignIn) {
       context.router.replace(MainRoute());
     // }
+  }
+
+  Future _onGoogleSignIn(BuildContext context) async {
+    final SignInCubit signInCubit =
+    BlocProvider.of<SignInCubit>(context);
+
+    await signInCubit.googleSignIn();
   }
 }

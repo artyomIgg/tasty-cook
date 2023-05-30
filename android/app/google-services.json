@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "831416949571-31eonrv6akqo426nnrrmjar8htnguboa.apps.googleusercontent.com",
+          "client_id": "831416949571-vl5igs5ltim3lvadnqu3konl5qm7j6q2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tasty_cook",
+            "certificate_hash": "ee6f9b274e1c9bcdd70b468d8a57c822a190bb4c"
+          }
+        },
+        {
+          "client_id": "831416949571-mslnittg9g22sr6vi21ar67lbi5g3iuv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +37,13 @@
             {
               "client_id": "831416949571-31eonrv6akqo426nnrrmjar8htnguboa.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "831416949571-ls43d0irage6vsb91kl7s49p2b6u4pfq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tastyCook"
+              }
             }
           ]
         }
