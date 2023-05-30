@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
+import 'package:tasty_cook/models/anonymous_user.dart';
+import 'package:tasty_cook/models/user_model.dart';
+import 'package:tasty_cook/repositories/auth_repository/auth_repositry.dart';
 import 'package:tasty_cook/utils/text_validators/text_validator.dart';
 
 part 'sign_in_state.dart';
@@ -12,12 +15,28 @@ class SignInCubit extends Cubit<SignInState> {
     emit(SignInInitial());
   }
 
-  bool signIn(String email, String password) {
+  Future<bool> signIn(String email, String password) async {
+    emit(SignInLoading());
     const String error = 'Wrong email or password';
     final bool result = email == 'test@gmail.com' && password == 'qwe123qwe';
-    result ? emit(SignInSuccess()) : emit(SignInError(error));
 
     return result;
+
+    final AnonymousUser anonymousUser = AnonymousUser(
+      email: email,
+      password: password,
+    );
+
+    final UserModel? user = await AuthRepository()
+        .logInWithEmailAndPassword(anonymousUser: anonymousUser);
+
+    if(user != null) {
+      emit(SignInSuccess(user));
+      return true;
+    } else {
+      emit(SignInError(error));
+      return false;
+    }
   }
 
   bool signUp({
@@ -99,6 +118,15 @@ class SignInCubit extends Cubit<SignInState> {
         await googleSignIn.signIn();
     if (googleSignInAccount == null) {
       return null;
+    }
+
+    final UserModel? user =
+        await AuthRepository().logInWithGoogle(token: googleSignInAccount.id);
+
+    if (user != null) {
+      emit(SignInSuccess(user));
+    } else {
+      emit(SignInError('Something went wrong'));
     }
   }
 }

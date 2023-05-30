@@ -9,6 +9,7 @@ import 'package:tasty_cook/bloc/sign_in_cubit/sign_in_cubit.dart';
 import 'package:tasty_cook/routing/app_router.dart';
 import 'package:tasty_cook/widgets/logo_widget.dart';
 import 'package:tasty_cook/widgets/main_button.dart';
+import 'package:tasty_cook/widgets/my_loader.dart';
 import 'package:tasty_cook/widgets/text_fields/my_text_filed.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/widgets/text_fields/passwrod_text_field.dart';
@@ -111,17 +112,22 @@ class SignInScreenBody extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(state.error, style: constants.Styles.error,),
+                      Text(
+                        state.error,
+                        style: constants.Styles.error,
+                      ),
                     ],
                     const SizedBox(
                       height: 10,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 60),
-                      child: MainButton(
-                        text: 'Sign In',
-                        onPressed: () => _onSignIn(context),
-                      ),
+                      child: state is SignInLoading
+                          ? const MyLoader()
+                          : MainButton(
+                              text: 'Sign In',
+                              onPressed: () => _onSignIn(context),
+                            ),
                     ),
                   ],
                 ),
@@ -138,7 +144,8 @@ class SignInScreenBody extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          SignInButton(Buttons.Google, onPressed: () => _onGoogleSignIn(context)),
+          SignInButton(Buttons.Google,
+              onPressed: () => _onGoogleSignIn(context)),
         ],
       ),
     );
@@ -192,24 +199,22 @@ class SignInScreenBody extends StatelessWidget {
     );
   }
 
-  void _onSignIn(BuildContext context) {
+  Future _onSignIn(BuildContext context) async {
     final String email = _emailEditingController.text;
     final String password = _passwordEditingController.text;
 
-    final SignInCubit signInCubit =
-    BlocProvider.of<SignInCubit>(context);
+    final SignInCubit signInCubit = BlocProvider.of<SignInCubit>(context);
 
-    final bool isSignIn = signInCubit.signIn(email, password);
+    final bool isSignIn = await signInCubit.signIn(email, password);
 
     //TODO
-    // if(isSignIn) {
-      context.router.replace(MainRoute());
-    // }
+    if (isSignIn) {
+      await context.router.replace(MainRoute());
+    }
   }
 
   Future _onGoogleSignIn(BuildContext context) async {
-    final SignInCubit signInCubit =
-    BlocProvider.of<SignInCubit>(context);
+    final SignInCubit signInCubit = BlocProvider.of<SignInCubit>(context);
 
     await signInCubit.googleSignIn();
   }

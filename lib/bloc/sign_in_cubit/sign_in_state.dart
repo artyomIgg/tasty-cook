@@ -6,13 +6,19 @@ abstract class SignInState {}
 class SignInInitial extends SignInState {}
 
 // SIGN IN
-class SignInSuccess extends SignInState {}
+class SignInSuccess extends SignInState {
+  final UserModel user;
+
+  SignInSuccess(this.user);
+}
 
 class SignInError extends SignInState {
   final String error;
 
   SignInError(this.error);
 }
+
+class SignInLoading extends SignInState {}
 
 // SIGN UP
 class SignUpSuccess extends SignInState {}

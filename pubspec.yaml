@@ -59,6 +59,7 @@ dependencies:
   # util
   email_validator: ^2.1.17
   flutter_quill: ^7.2.1
+  dio: ^5.1.2
 
   # system
   image_picker: ^0.8.7+5
