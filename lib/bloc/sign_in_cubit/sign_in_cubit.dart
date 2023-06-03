@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:tasty_cook/models/anonymous_user.dart';
 import 'package:tasty_cook/models/user_model.dart';
 import 'package:tasty_cook/repositories/auth_repository/auth_repositry.dart';
+import 'package:tasty_cook/utils/app_state/app_state.dart';
 import 'package:tasty_cook/utils/text_validators/text_validator.dart';
 
 part 'sign_in_state.dart';
@@ -18,20 +19,18 @@ class SignInCubit extends Cubit<SignInState> {
   Future<bool> signIn(String email, String password) async {
     emit(SignInLoading());
     const String error = 'Wrong email or password';
-    final bool result = email == 'test@gmail.com' && password == 'qwe123qwe';
-
-    return result;
 
     final AnonymousUser anonymousUser = AnonymousUser(
       email: email,
       password: password,
     );
 
-    final UserModel? user = await AuthRepository()
+    final String? token = await AuthRepository()
         .logInWithEmailAndPassword(anonymousUser: anonymousUser);
 
-    if(user != null) {
-      emit(SignInSuccess(user));
+    if (token != null) {
+      AppState.token = token;
+      emit(SignInSuccess());
       return true;
     } else {
       emit(SignInError(error));
@@ -39,12 +38,14 @@ class SignInCubit extends Cubit<SignInState> {
     }
   }
 
-  bool signUp({
+  Future<bool> signUp({
     required String email,
     required String username,
     required String password,
     required String repeatedPassword,
-  }) {
+  }) async {
+    emit(SignUpLoading());
+
     final bool isEmailValid = TextValidator.isEmailValid(email);
     final bool isUsernameValid = TextValidator.isUsernameValid(username);
     final bool isPasswordValid = TextValidator.isPasswordValid(password);
@@ -55,6 +56,23 @@ class SignInCubit extends Cubit<SignInState> {
         isUsernameValid &&
         isPasswordValid &&
         isRepeatedPasswordValid) {
+      final AnonymousUser user = AnonymousUser(
+        email: email,
+        password: password,
+        username: username,
+      );
+
+      final bool isCreatedUser = await AuthRepository()
+          .signUpWithEmailAndPassword(anonymousUser: user);
+
+      if (isCreatedUser) {
+        emit(SignUpSuccess());
+      } else {
+        emit(SignUpError('Something went wrong'));
+
+        return false;
+      }
+
       return true;
     } else {
       final String emailError = isEmailValid ? '' : 'Wrong email';
@@ -66,7 +84,7 @@ class SignInCubit extends Cubit<SignInState> {
           isRepeatedPasswordValid ? '' : 'Password does not match';
 
       emit(
-        SignUpError(
+        SignUpCheckError(
           emailError,
           usernameError,
           passwordError,
@@ -124,7 +142,7 @@ class SignInCubit extends Cubit<SignInState> {
         await AuthRepository().logInWithGoogle(token: googleSignInAccount.id);
 
     if (user != null) {
-      emit(SignInSuccess(user));
+      emit(SignInSuccess());
     } else {
       emit(SignInError('Something went wrong'));
     }

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 
-const _baseUrl = 'base_url';
+const _baseUrl = 'http://20.237.47.180/';
 
 // Http request methods: post, get, put, delete, patch
 enum RequestMethods { post, get, put, delete, patch }
@@ -15,7 +16,7 @@ class HttpService {
   Future<HttpService> init() async {
     _dio = Dio(
       BaseOptions(
-        baseUrl: 'https://jseeonplaceholder.typicode.com/',
+        baseUrl: _baseUrl,
         headers: header(),
       ),
     );
@@ -28,31 +29,26 @@ class HttpService {
     Map<String, dynamic>? params,
     Map<String, dynamic>? data,
   }) async {
+    await init();
     Response response;
 
-    await Future.delayed(Duration(seconds: 5));
-
-    // git generate stopped this function on five second
-    // if you want to use this function, you should delete this line
-    // await _dio!.get('https://jsonplaceholder.typicode.com/todos/1');
-
-
-
+    // await Future.delayed(Duration(seconds: 5));
 
     try {
       switch (method) {
         case RequestMethods.post:
           response = await _dio!.post(
             url,
-            data: data,
-            queryParameters: params,
+            data: params,
           );
+          Logger().i(response);
           break;
         case RequestMethods.get:
           response = await _dio!.get(
             url,
             queryParameters: params,
           );
+          Logger().i(response);
           break;
         case RequestMethods.put:
           response = await _dio!.put(
@@ -60,18 +56,21 @@ class HttpService {
             data: data,
             queryParameters: params,
           );
+          Logger().i(response);
           break;
         case RequestMethods.delete:
           response = await _dio!.delete(
             url,
             queryParameters: params,
           );
+          Logger().i(response);
           break;
         default:
           response = await _dio!.get(
             url,
             queryParameters: params,
           );
+          Logger().i(response);
       }
 
       if (response.statusCode == 201 ||
@@ -83,7 +82,8 @@ class HttpService {
       }
     } on DioError catch (e) {
       if (e.response != null) {
-        return e.response;
+        Logger().e(e.response!.data);
+        return null;
       } else {
         return null;
       }

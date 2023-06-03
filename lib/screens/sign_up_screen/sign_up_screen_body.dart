@@ -7,6 +7,7 @@ import 'package:tasty_cook/bloc/sign_in_cubit/sign_in_cubit.dart';
 import 'package:tasty_cook/widgets/logo_widget.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/widgets/main_button.dart';
+import 'package:tasty_cook/widgets/my_loader.dart';
 import 'package:tasty_cook/widgets/text_fields/my_text_filed.dart';
 import 'package:tasty_cook/widgets/text_fields/passwrod_text_field.dart';
 
@@ -103,7 +104,7 @@ class SignUpScreenBody extends StatelessWidget {
                         keyboardType: TextInputType.emailAddress,
                       ),
                     ),
-                    if (state is SignUpError &&
+                    if (state is SignUpCheckError &&
                         state.emailError.isNotEmpty) ...[
                       Text(
                         state.emailError,
@@ -121,7 +122,7 @@ class SignUpScreenBody extends StatelessWidget {
                         style: constants.Styles.textFieldBlack,
                       ),
                     ),
-                    if (state is SignUpError &&
+                    if (state is SignUpCheckError &&
                         state.usernameError.isNotEmpty) ...[
                       Text(
                         state.usernameError,
@@ -137,7 +138,7 @@ class SignUpScreenBody extends StatelessWidget {
                         controller: _passwordTextEditingController,
                       ),
                     ),
-                    if (state is SignUpError &&
+                    if (state is SignUpCheckError &&
                         state.passwordError.isNotEmpty) ...[
                       Text(
                         state.passwordError,
@@ -154,7 +155,7 @@ class SignUpScreenBody extends StatelessWidget {
                         isRepeatPassword: true,
                       ),
                     ),
-                    if (state is SignUpError &&
+                    if (state is SignUpCheckError &&
                         state.repeatedPasswordError.isNotEmpty) ...[
                       Text(
                         state.repeatedPasswordError,
@@ -164,7 +165,7 @@ class SignUpScreenBody extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Padding(
+                    state is SignUpLoading ? const MyLoader() : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 60),
                       child: MainButton(
                         text: 'Sign Up',
@@ -199,16 +200,15 @@ class SignUpScreenBody extends StatelessWidget {
     context.router.pop();
   }
 
-  void _onSignUp(BuildContext context) {
+  Future<void> _onSignUp(BuildContext context) async {
     final String email = _emailTextEditingController.text;
     final String password = _passwordTextEditingController.text;
     final String username = _usernameTextEditingController.text;
     final String repeatedPassword = _repeatedPasswordTextEditingController.text;
 
-    final SignInCubit activationCodeCubit =
-        BlocProvider.of<SignInCubit>(context);
+    final SignInCubit signInCubit = BlocProvider.of<SignInCubit>(context);
 
-    final bool isSignUp = activationCodeCubit.signUp(
+    final bool isSignUp = await signInCubit.signUp(
       email: email,
       username: username,
       password: password,
@@ -221,6 +221,17 @@ class SignUpScreenBody extends StatelessWidget {
         SnackBar(
           content: Text(
             'Account created successfully',
+            style: constants.Styles.textSmallGold,
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            signInCubit.state is SignUpError
+                ? (signInCubit.state as SignUpError).error
+                : 'Something went wrong',
             style: constants.Styles.textSmallGold,
           ),
         ),

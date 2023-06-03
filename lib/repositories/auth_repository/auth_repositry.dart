@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 import 'package:tasty_cook/models/anonymous_user.dart';
 import 'package:tasty_cook/models/user_model.dart';
 import 'package:tasty_cook/repositories/auth_repository/base_auth_repository.dart';
@@ -8,12 +9,12 @@ class AuthRepository extends BaseAuthRepository {
   final HttpService _httpService = HttpService();
 
   @override
-  Future<UserModel?> logInWithEmailAndPassword(
+  Future<String?> logInWithEmailAndPassword(
       {required AnonymousUser anonymousUser}) async {
     await _httpService.init();
 
     final response = await _httpService.request(
-      url: 'user/login',
+      url: 'users/api/user/login',
       method: RequestMethods.post,
       params: anonymousUser.toJson(),
     );
@@ -22,8 +23,8 @@ class AuthRepository extends BaseAuthRepository {
       return null;
     }
 
-    if (response is Response) {
-      return UserModel.fromJson(response.data['user']);
+    if (response is Response && response.statusCode == 200) {
+      return response.data['token'];
     } else {
       return null;
     }
@@ -50,24 +51,22 @@ class AuthRepository extends BaseAuthRepository {
   }
 
   @override
-  Future<UserModel> signUpWithEmailAndPassword(
+  Future<bool> signUpWithEmailAndPassword(
       {required AnonymousUser anonymousUser}) async {
     await _httpService.init();
 
     final response = await _httpService.request(
-      url: 'user/google-authenticate',
+      url: 'users/api/user/register',
       method: RequestMethods.post,
       params: anonymousUser.toJson(),
     );
 
-    if (response == null) {
-      throw Exception('Login failed');
-    }
+    Logger().d(response);
 
-    if (response is Response) {
-      return UserModel.fromJson(response.data['user']);
+    if (response is Response && response.statusCode == 201) {
+      return true;
     } else {
-      throw Exception('Login failed');
+      return false;
     }
   }
 }

@@ -6,11 +6,7 @@ abstract class SignInState {}
 class SignInInitial extends SignInState {}
 
 // SIGN IN
-class SignInSuccess extends SignInState {
-  final UserModel user;
-
-  SignInSuccess(this.user);
-}
+class SignInSuccess extends SignInState {}
 
 class SignInError extends SignInState {
   final String error;
@@ -23,19 +19,27 @@ class SignInLoading extends SignInState {}
 // SIGN UP
 class SignUpSuccess extends SignInState {}
 
-class SignUpError extends SignInState {
+class SignUpCheckError extends SignInState {
   final String emailError;
   final String usernameError;
   final String passwordError;
   final String repeatedPasswordError;
 
-  SignUpError(
+  SignUpCheckError(
     this.emailError,
     this.usernameError,
     this.passwordError,
     this.repeatedPasswordError,
   );
 }
+
+class SignUpError extends SignInState {
+  final String error;
+
+  SignUpError(this.error);
+}
+
+class SignUpLoading extends SignInState {}
 
 // EMAIL
 class EmailValidatorError extends SignInState {

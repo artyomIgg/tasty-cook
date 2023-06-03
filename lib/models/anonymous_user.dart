@@ -12,14 +12,14 @@ class AnonymousUser {
   Map<String, dynamic> toJson() => {
     'username': username,
     'email': email,
-    'password': password,
+    'Password': password,
   };
 
   factory AnonymousUser.fromJson(Map<String, dynamic> json) {
     return AnonymousUser(
       username: json['username'],
       email: json['email'],
-      password: json['password'],
+      password: json['Password'],
     );
   }
 }
