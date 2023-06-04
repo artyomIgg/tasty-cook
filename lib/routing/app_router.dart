@@ -10,6 +10,7 @@ import 'package:tasty_cook/screens/search_screen/search_screen.dart';
 import 'package:tasty_cook/screens/settings_screen/settings_screen.dart';
 import 'package:tasty_cook/screens/sign_in_screen/sign_in_screen.dart';
 import 'package:tasty_cook/screens/sign_up_screen/sign_up_screen.dart';
+import 'package:tasty_cook/utils/app_state/app_state.dart';
 
 part 'app_router.gr.dart';
 
@@ -17,17 +18,31 @@ part 'app_router.gr.dart';
 class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(
-          path: '/sign-in',
-          page: SignInRoute.page,
-          initial: true,
-        ),
-        AutoRoute(page: SignUpRoute.page),
-        AutoRoute(page: ResetPasswordRoute.page),
-        AutoRoute(page: MainRoute.page),
+        // LOGOUT ROUTES
+        if (AppState.logState == LoggedState.logout) ...[
+          AutoRoute(
+            path: '/sign-in',
+            page: SignInRoute.page,
+            initial: true,
+          ),
+          AutoRoute(page: SignUpRoute.page),
+          AutoRoute(page: ResetPasswordRoute.page),
+          AutoRoute(page: MainRoute.page),
+        ]
+        // SIGNING ROUTES
+        else if (AppState.logState == LoggedState.logIn) ...[
+          AutoRoute(
+            path: '/main',
+            page: MainRoute.page,
+            initial: true,
+          ),
+        ],
+        // MAIN ROUTES
         AutoRoute(page: MyProfileRoute.page),
         AutoRoute(page: SettingsRoute.page),
         AutoRoute(page: RecipeRoute.page),
+        AutoRoute(page: AddRecipeRoute.page),
         AutoRoute(page: AddRecipeCreateRoute.page),
+        AutoRoute(page: SearchRoute.page),
       ];
 }

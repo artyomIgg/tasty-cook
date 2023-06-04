@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
+import 'package:tasty_cook/bloc/token_cubit/token_cubit.dart';
 import 'package:tasty_cook/models/anonymous_user.dart';
 import 'package:tasty_cook/models/user_model.dart';
-import 'package:tasty_cook/repositories/auth_repository/auth_repositry.dart';
-import 'package:tasty_cook/utils/app_state/app_state.dart';
+import 'package:tasty_cook/repositories/auth_repository/auth_repository.dart';
 import 'package:tasty_cook/utils/text_validators/text_validator.dart';
 
 part 'sign_in_state.dart';
@@ -29,7 +29,7 @@ class SignInCubit extends Cubit<SignInState> {
         .logInWithEmailAndPassword(anonymousUser: anonymousUser);
 
     if (token != null) {
-      AppState.token = token;
+      await TokenCubit().saveToken(token);
       emit(SignInSuccess());
       return true;
     } else {

@@ -39,6 +39,12 @@ class DatabaseService {
     return null;
   }
 
+  Future<void> cleanUser() async {
+    await _sharedPreferencesInit();
+
+    await prefs.remove(DatabaseKeys.user);
+  }
+
   // TOKEN
 
   Future<void> saveToken(String token) async {
@@ -53,5 +59,11 @@ class DatabaseService {
     final String? token = prefs.getString(DatabaseKeys.token);
 
     return token;
+  }
+
+  Future<void> cleanToken() async {
+    await _sharedPreferencesInit();
+
+    await prefs.remove(DatabaseKeys.token);
   }
 }

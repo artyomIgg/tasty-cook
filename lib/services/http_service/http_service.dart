@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
+import 'package:tasty_cook/services/database_service/database_service.dart';
 
 const _baseUrl = 'http://20.237.47.180/';
 
@@ -32,7 +33,10 @@ class HttpService {
     await init();
     Response response;
 
-    // await Future.delayed(Duration(seconds: 5));
+    final String token = await DatabaseService().getToken() ?? '';
+
+    final Options options =
+        Options(headers: {'Authorization': 'Bearer $token'});
 
     try {
       switch (method) {
@@ -40,6 +44,7 @@ class HttpService {
           response = await _dio!.post(
             url,
             data: params,
+            options: options,
           );
           Logger().i(response);
           break;
@@ -47,6 +52,7 @@ class HttpService {
           response = await _dio!.get(
             url,
             queryParameters: params,
+            options: options,
           );
           Logger().i(response);
           break;
@@ -55,6 +61,7 @@ class HttpService {
             url,
             data: data,
             queryParameters: params,
+            options: options,
           );
           Logger().i(response);
           break;
@@ -62,6 +69,7 @@ class HttpService {
           response = await _dio!.delete(
             url,
             queryParameters: params,
+            options: options,
           );
           Logger().i(response);
           break;
@@ -69,6 +77,7 @@ class HttpService {
           response = await _dio!.get(
             url,
             queryParameters: params,
+            options: options,
           );
           Logger().i(response);
       }
