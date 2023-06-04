@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:tasty_cook/models/recipe_model.dart';
 import 'package:tasty_cook/repositories/recipe_repository/recipe_repository_base.dart';
 import 'package:tasty_cook/services/http_service/http_service.dart';
@@ -7,14 +8,17 @@ class RecipeRepository extends RecipeRepositoryBase {
 
   @override
   Future<List<RecipeModel>?> getRecipes() async {
-    await  _httpService.init();
+    await _httpService.init();
+
     final response = await _httpService.request(
-      url: 'recipes',
+      url: 'recipes/api/recipes',
       method: RequestMethods.get,
     );
 
-    if(response != null) {
-      return response.map((e) => RecipeModel.fromJson(e)).toList();
+    if (response != null && response is Response && response.statusCode == 200) {
+      return List<RecipeModel>.from(response.data['recipes'].map((e) {
+        return RecipeModel.fromJson(e);
+      }));
     }
 
     return null;

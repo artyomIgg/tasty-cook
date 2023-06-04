@@ -1,41 +1,43 @@
-class RecipeModel {
-  final int id;
-  final String title;
-  final String description;
-  final String image;
-  final int likes;
-  final bool? isLiked;
+import 'package:tasty_cook/models/category_model.dart';
 
+class RecipeModel {
   RecipeModel({
     required this.id,
-    required this.title,
+    required this.name,
     required this.description,
-    required this.image,
     required this.likes,
-    this.isLiked,
+    required this.userId,
+    required this.user,
+    required this.categories,
   });
 
-  factory RecipeModel.fromJson(Map<String, dynamic> json) {
-    return RecipeModel(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      image: json['image'],
-      likes: json['likes'],
-      isLiked: json['isLiked'],
-    );
-  }
+  final int id;
+  final String name;
+  final String description;
+  final int likes;
+  final String userId;
+  final String? user;
+  final List<CategoryModel> categories;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'image': image,
-      'likes': likes,
-      'isLiked': isLiked,
-    };
-  }
+  factory RecipeModel.fromJson(Map<String, dynamic> json) => RecipeModel(
+        id: json['id'],
+        name: json['name'],
+        description: json['description'],
+        likes: json['likes'],
+        userId: json['userId'],
+        user: json['user'],
+        categories: List<CategoryModel>.from(json['categories'].map((e) {
+          return CategoryModel.fromJson(e);
+        })),
+      );
 
-  
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'description': description,
+        'likes': likes,
+        'userId': userId,
+        'user': user,
+        'categories': categories,
+      };
 }

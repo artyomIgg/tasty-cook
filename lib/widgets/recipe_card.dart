@@ -2,12 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
+import 'package:tasty_cook/models/recipe_model.dart';
 import 'package:tasty_cook/routing/app_router.dart';
 
 class RecipeCard extends StatelessWidget {
-  const RecipeCard({super.key, required this.index});
+  const RecipeCard({
+    super.key,
+    required this.index,
+    required this.recipe,
+  });
 
   final int index;
+  final RecipeModel recipe;
 
   @override
   Widget build(BuildContext context) {
@@ -52,18 +58,34 @@ class RecipeCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Title $index',
+                        recipe.name,
                         style: constants.Styles.recipeCardTitle,
                       ),
-                      Text(
-                        '22.05.2023',
-                        style: constants.Styles.recipeCardDescription,
+                      Row(
+                        children: [
+                          GestureDetector(
+                              // padding: EdgeInsets.zero,
+                              onTap: null,
+                              // padding: EdgeInsets.zero,
+                              child: const Icon(
+                                Icons.favorite,
+                                color: constants.Colors.lightRed,
+                                size: 16,
+                              )),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            '${recipe.likes}',
+                            style: constants.Styles.recipeCardDescription,
+                          ),
+                        ],
                       ),
                     ],
                   ),
                   Flexible(
                     child: Text(
-                      'Description Description Description Descri Description Description Description Description Description Description Description Description Description Description Description Description ',
+                      recipe.description,
                       style: constants.Styles.recipeCardDescription,
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,
