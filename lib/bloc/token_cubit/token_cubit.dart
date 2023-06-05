@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:tasty_cook/services/database_service/database_service.dart';
 import 'package:tasty_cook/utils/app_state/app_state.dart';
@@ -14,6 +15,8 @@ class TokenCubit extends Cubit<TokenState> {
 
   Future<String> getToken() async {
     final String? token = await DatabaseService().getToken();
+
+    Logger().i(token);
 
     if(token != null) {
       AppState.token = token;

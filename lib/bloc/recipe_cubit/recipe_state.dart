@@ -18,3 +18,14 @@ class RecipeError extends RecipeState {
 
   RecipeError(this.message);
 }
+
+// CREATE RECIPE
+class RecipeCreating extends RecipeState {}
+
+class RecipeCreated extends RecipeState {}
+
+class RecipeCreateError extends RecipeState {
+  final String message;
+
+  RecipeCreateError(this.message);
+}

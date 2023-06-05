@@ -1,17 +1,22 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:tasty_cook/bloc/create_recipe_logic_cubit/create_recipe_logic_cubit.dart';
+import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
+import 'package:tasty_cook/widgets/main_button.dart';
+import 'package:tasty_cook/widgets/my_loader.dart';
 import 'package:tasty_cook/widgets/text_fields/my_text_filed.dart';
 
 class AddRecipeCreateBody extends StatelessWidget {
   AddRecipeCreateBody({super.key});
 
   final quill.QuillController _quillController = quill.QuillController.basic();
+  final TextEditingController _titleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,7 @@ class AddRecipeCreateBody extends StatelessWidget {
             const SizedBox(
               height: 26,
             ),
-            _mainInfo(size),
+            _mainInfo(context, size),
           ],
         ),
       ),
@@ -76,7 +81,7 @@ class AddRecipeCreateBody extends StatelessWidget {
     );
   }
 
-  Widget _mainInfo(Size size) {
+  Widget _mainInfo(BuildContext context, Size size) {
     const EdgeInsets elementsPadding = EdgeInsets.symmetric(horizontal: 6);
 
     return Padding(
@@ -101,6 +106,7 @@ class AddRecipeCreateBody extends StatelessWidget {
             child: SizedBox(
               height: 36,
               child: MyTextField(
+                controller: _titleController,
                 hintText: 'Recipe title: Pasta Carbonara',
               ),
             ),
@@ -163,8 +169,20 @@ class AddRecipeCreateBody extends StatelessWidget {
             // ),
           ),
           const SizedBox(
-            height: 46,
+            height: 16,
           ),
+          BlocBuilder<RecipeCubit, RecipeState>(
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                child: state is RecipeCreating
+                    ? Center(child: const MyLoader())
+                    : MainButton(
+                        text: 'Create',
+                        onPressed: () => _createRecipe(context)),
+              );
+            },
+          )
         ],
       ),
     );
@@ -186,5 +204,24 @@ class AddRecipeCreateBody extends StatelessWidget {
         BlocProvider.of<CreateRecipeLogicCubit>(context);
 
     createRecipeLogicCubit.pickPhoto();
+  }
+
+  Future<void> _createRecipe(BuildContext context) async {
+    final RecipeCubit recipeCubit = BlocProvider.of<RecipeCubit>(context);
+
+    await recipeCubit.createRecipe(
+        _titleController.text,
+        _quillController.document.toDelta().toJson().toString(),
+        []).then((value) {
+      context.router.pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'New recipe was created!',
+            style: constants.Styles.textSmallGold,
+          ),
+        ),
+      );
+    });
   }
 }

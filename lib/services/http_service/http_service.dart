@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:tasty_cook/services/database_service/database_service.dart';
 
-const _baseUrl = 'http://20.237.47.180/';
+const _baseUrl = 'http://20.232.55.131/';
 
 // Http request methods: post, get, put, delete, patch
 enum RequestMethods { post, get, put, delete, patch }

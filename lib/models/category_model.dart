@@ -1,4 +1,4 @@
-import 'package:tasty_cook/models/recipe_model.dart';
+import 'package:tasty_cook/models/recipe/recipe_model.dart';
 
 class CategoryModel {
   final int id;

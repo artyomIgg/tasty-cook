@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
-import 'package:tasty_cook/models/recipe_model.dart';
+import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/routing/app_router.dart';
 
 class RecipeCard extends StatelessWidget {
