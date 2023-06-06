@@ -27,7 +27,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: RecipeScreen(
           key: args.key,
-          title: args.title,
+          recipe: args.recipe,
         ),
       );
     },
@@ -103,13 +103,13 @@ class SettingsRoute extends PageRouteInfo<void> {
 class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
   RecipeRoute({
     Key? key,
-    required String title,
+    required RecipeModel recipe,
     List<PageRouteInfo>? children,
   }) : super(
           RecipeRoute.name,
           args: RecipeRouteArgs(
             key: key,
-            title: title,
+            recipe: recipe,
           ),
           initialChildren: children,
         );
@@ -122,16 +122,16 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
 class RecipeRouteArgs {
   const RecipeRouteArgs({
     this.key,
-    required this.title,
+    required this.recipe,
   });
 
   final Key? key;
 
-  final String title;
+  final RecipeModel recipe;
 
   @override
   String toString() {
-    return 'RecipeRouteArgs{key: $key, title: $title}';
+    return 'RecipeRouteArgs{key: $key, recipe: $recipe}';
   }
 }
 

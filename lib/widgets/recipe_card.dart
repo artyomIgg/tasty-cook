@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/routing/app_router.dart';
@@ -17,9 +18,12 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Widget description = RecipeLogicCubit()
+        .getHtmlWidget(recipe.description, color: 'white', fontSize: 12);
+
     return CupertinoButton(
       padding: EdgeInsets.zero,
-      onPressed: () => _onCardPress(context),
+      onPressed: () => _onCardPress(context, recipe),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -58,15 +62,12 @@ class RecipeCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        recipe.name,
+                        recipe.title,
                         style: constants.Styles.recipeCardTitle,
                       ),
                       Row(
                         children: [
                           GestureDetector(
-                              // padding: EdgeInsets.zero,
-                              onTap: null,
-                              // padding: EdgeInsets.zero,
                               child: const Icon(
                                 Icons.favorite,
                                 color: constants.Colors.lightRed,
@@ -84,12 +85,9 @@ class RecipeCard extends StatelessWidget {
                     ],
                   ),
                   Flexible(
-                    child: Text(
-                      recipe.description,
-                      style: constants.Styles.recipeCardDescription,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
+                    child: SingleChildScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: description,
                     ),
                   ),
                 ],
@@ -101,10 +99,10 @@ class RecipeCard extends StatelessWidget {
     );
   }
 
-  void _onCardPress(BuildContext context) {
+  void _onCardPress(BuildContext context, RecipeModel recipe) {
     context.router.push(
       RecipeRoute(
-        title: 'Title $index',
+        recipe: recipe,
       ),
     );
   }

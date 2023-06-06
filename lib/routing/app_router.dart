@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/screens/add_recipe/add_recipe_screen.dart';
 import 'package:tasty_cook/screens/add_recipe_create/add_recipe_create_screen.dart';
 import 'package:tasty_cook/screens/main_screen/main_screen.dart';

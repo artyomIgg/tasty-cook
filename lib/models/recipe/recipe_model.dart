@@ -1,9 +1,7 @@
-import 'package:tasty_cook/models/category_model.dart';
-
 class RecipeModel {
   RecipeModel({
     required this.id,
-    required this.name,
+    required this.title,
     required this.description,
     required this.likes,
     required this.userId,
@@ -12,28 +10,28 @@ class RecipeModel {
   });
 
   final int id;
-  final String name;
+  final String title;
   final String description;
   final int likes;
   final String userId;
   final String? user;
-  final List<CategoryModel> categories;
+  final List<String> categories;
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) => RecipeModel(
         id: json['id'],
-        name: json['name'],
+        title: json['title'],
         description: json['description'],
         likes: json['likes'],
         userId: json['userId'],
         user: json['user'],
-        categories: List<CategoryModel>.from(json['categories'].map((e) {
-          return CategoryModel.fromJson(e);
+        categories: List<String>.from(json['categories'].map((e) {
+          return e;
         })),
       );
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'name': name,
+        'title': title,
         'description': description,
         'likes': likes,
         'userId': userId,

@@ -8,3 +8,5 @@ class AppStateInitial extends AppStateState {}
 class AppStateLogout extends AppStateState {}
 
 class AppStateLogIn extends AppStateState {}
+
+class AppStateChangeSuccess extends AppStateState {}

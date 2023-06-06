@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:tasty_cook/bloc/create_recipe_logic_cubit/create_recipe_logic_cubit.dart';
+import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/widgets/main_button.dart';
@@ -43,7 +43,7 @@ class AddRecipeCreateBody extends StatelessWidget {
     return CupertinoButton(
       onPressed: () => _onTapButton(context),
       padding: EdgeInsets.zero,
-      child: BlocBuilder<CreateRecipeLogicCubit, CreateRecipeLogicState>(
+      child: BlocBuilder<RecipeLogicCubit, RecipeLogicState>(
         builder: (context, state) {
           return Container(
             padding: EdgeInsets.symmetric(vertical: 20),
@@ -200,19 +200,19 @@ class AddRecipeCreateBody extends StatelessWidget {
   }
 
   void _onTapButton(BuildContext context) {
-    final CreateRecipeLogicCubit createRecipeLogicCubit =
-        BlocProvider.of<CreateRecipeLogicCubit>(context);
+    final RecipeLogicCubit createRecipeLogicCubit =
+        BlocProvider.of<RecipeLogicCubit>(context);
 
     createRecipeLogicCubit.pickPhoto();
   }
 
   Future<void> _createRecipe(BuildContext context) async {
     final RecipeCubit recipeCubit = BlocProvider.of<RecipeCubit>(context);
+    final String html =
+        RecipeLogicCubit().getHtmlFromDelta(_quillController.document);
 
-    await recipeCubit.createRecipe(
-        _titleController.text,
-        _quillController.document.toDelta().toJson().toString(),
-        []).then((value) {
+    await recipeCubit
+        .createRecipe(_titleController.text, html, []).then((value) {
       context.router.pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

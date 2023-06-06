@@ -36,8 +36,13 @@ class Home extends StatelessWidget {
         child: Sizer(
           builder: (context, orientation, deviceType) {
             return BlocBuilder<AppStateCubit, AppStateState>(
+              buildWhen: (previous, current) {
+                if (current is AppStateChangeSuccess) {
+                  appRouter = AppRouteInit.initAppRoute();
+                }
+                return current is! AppStateChangeSuccess;
+              },
               builder: (context, state) {
-                appRouter = AppRouteInit.initAppRoute();
                 return MaterialApp.router(
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,

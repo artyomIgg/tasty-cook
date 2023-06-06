@@ -17,12 +17,17 @@ class AppStateCubit extends Cubit<AppStateState> {
     if (AppState.logState == LoggedState.logout) {
       emit(AppStateLogout());
     } else {
+
       emit(AppStateLogIn());
     }
+
+    emit(AppStateChangeSuccess());
   }
 
   Future<void> logOut() async {
     await appState.logOut();
     emit(AppStateLogout());
+
+    emit(AppStateChangeSuccess());
   }
 }
