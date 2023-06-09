@@ -42,4 +42,10 @@ class RecipeCubit extends Cubit<RecipeState> {
       emit(RecipeCreateError('Recipes not found'));
     }
   }
+
+  Future<RecipeModel?> getRecipeById(String id) async {
+    final RecipeModel? recipe = await RecipeRepository().getRecipeById(id: id);
+
+    return recipe;
+  }
 }

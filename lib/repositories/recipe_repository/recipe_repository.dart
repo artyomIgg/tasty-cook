@@ -45,4 +45,22 @@ class RecipeRepository extends RecipeRepositoryBase {
 
     return false;
   }
+
+  @override
+  Future<RecipeModel?> getRecipeById({required String id}) async {
+    await _httpService.init();
+
+    final response = await _httpService.request(
+      url: 'recipes/api/recipes/$id',
+      method: RequestMethods.get,
+    );
+
+    if (response != null &&
+        response is Response &&
+        response.statusCode == 200) {
+      return RecipeModel.fromJson(response.data);
+    }
+
+    return null;
+  }
 }

@@ -11,6 +11,8 @@ class AppState {
 
   static String token = '';
 
+  static bool isBarcodeScanning = true;
+
   Future<void> initAppState() async {
     final String? token = await DatabaseService().getToken();
 

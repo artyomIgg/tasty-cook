@@ -4,8 +4,10 @@ import 'package:sizer/sizer.dart';
 import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
-import 'package:tasty_cook/utils/qr_code/qr_cdoe_generator.dart';
+import 'package:tasty_cook/services/dynamic_links_service/dynamic_link_service.dart';
+import 'package:tasty_cook/utils/qr_code/qr_code_generator.dart';
 import 'package:tasty_cook/widgets/main_button.dart';
+import 'package:tasty_cook/widgets/my_loader.dart';
 
 class RecipeScreenBody extends StatelessWidget {
   RecipeScreenBody({
@@ -60,8 +62,7 @@ class RecipeScreenBody extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 70),
               child: MainButton(
-                  text: 'Create Qr-Code',
-                  onPressed: () => _showDialog(context)),
+                  text: 'Share recipe', onPressed: () => _showDialog(context)),
             ),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -115,16 +116,44 @@ class RecipeScreenBody extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  QrCodeGenerator.getQrCodeImage(),
-                  SizedBox(
+                  FutureBuilder(
+                    future: DynamicLinkService.createDynamicLinkRecipe(
+                        recipe.id.toString()),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return QrCodeGenerator.getQrCodeImage(
+                            snapshot.data as String);
+                      }
+                      return const SizedBox(
+                          height: 256,
+                          width: double.infinity,
+                          child: Center(child: MyLoader()));
+                    },
+                  ),
+                  const SizedBox(
                     height: 32,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 60),
+                    padding: const EdgeInsets.symmetric(horizontal: 60),
                     child: MainButton(
-                      text: 'Share',
-                      onPressed: () {
-                        QrCodeGenerator.shareQr('test');
+                      text: 'Share with QR-code',
+                      onPressed: () async {
+                        final url =
+                            await DynamicLinkService.createDynamicLinkRecipe(
+                                recipe.id.toString());
+                        await QrCodeGenerator.shareQr(url);
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 60),
+                    child: MainButton(
+                      text: 'Share with link',
+                      onPressed: () async {
+                        final url =
+                            await DynamicLinkService.createDynamicLinkRecipe(
+                                recipe.id.toString());
+                        await DynamicLinkService.shareLink(url);
                       },
                     ),
                   ),

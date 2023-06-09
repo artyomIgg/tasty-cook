@@ -26,9 +26,9 @@ class QrCodeGenerator {
     return await file.writeAsBytes(pngBytes!);
   }
 
-  static Widget getQrCodeImage() {
+  static Widget getQrCodeImage(String url) {
     return QrImageView(
-      data: 'GlebPidor',
+      data: url,
       size: 256,
       gapless: false,
       foregroundColor: constants.Colors.primaryGrey,

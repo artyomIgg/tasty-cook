@@ -8,11 +8,24 @@ import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/screens/my_profile_screen/my_profile_screen.dart';
 import 'package:tasty_cook/screens/qr_code_scanner_screen/qr_code_scanner_screen.dart';
 import 'package:tasty_cook/screens/search_screen/search_screen.dart';
+import 'package:tasty_cook/services/dynamic_links_service/dynamic_link_service.dart';
 import 'package:tasty_cook/widgets/text_fields/my_search_widget.dart';
 
 @RoutePage()
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    DynamicLinkService.dynamicLinkInitial(context);
+    DynamicLinkService.dynamicLinkListen(context);
+    super.initState();
+  }
 
   final PersistentTabController _controller = PersistentTabController();
 

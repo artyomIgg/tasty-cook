@@ -9,10 +9,20 @@ import 'package:tasty_cook/bloc/user_cubit/user_cubit.dart';
 import 'package:tasty_cook/routing/app_route_init.dart';
 import 'package:tasty_cook/routing/app_router.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   Home({super.key, required this.appRouter});
 
   AppRouter appRouter;
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +48,7 @@ class Home extends StatelessWidget {
             return BlocBuilder<AppStateCubit, AppStateState>(
               buildWhen: (previous, current) {
                 if (current is AppStateChangeSuccess) {
-                  appRouter = AppRouteInit.initAppRoute();
+                  widget.appRouter = AppRouteInit.initAppRoute();
                 }
                 return current is! AppStateChangeSuccess;
               },
@@ -47,7 +57,7 @@ class Home extends StatelessWidget {
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,
-                  routerConfig: appRouter.config(),
+                  routerConfig: widget.appRouter.config(),
                 );
               },
             );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/screens/qr_code_scanner_screen/widgets/qe_scanner_overlay.dart';
+import 'package:tasty_cook/services/dynamic_links_service/dynamic_link_service.dart';
+import 'package:tasty_cook/utils/app_state/app_state.dart';
 
 class QrCodeScannerBody extends StatelessWidget {
   const QrCodeScannerBody({super.key});
@@ -22,16 +24,14 @@ class QrCodeScannerBody extends StatelessWidget {
       color: constants.Colors.primaryGrey,
       child: Stack(
         children: [
-          MobileScanner(
-              // allowDuplicates: false,
-              // onDetect: (barcode) {}),
-              onDetect: (barcode) {
-                // _onDetect(
-                //   chargingCubit: chargingCubit,
-                //   barcode: barcode,
-                //   orderId: widget.orderId,
-                // );
-              }),
+          MobileScanner(onDetect: (barcode) async {
+            if (AppState.isBarcodeScanning) {
+              AppState.isBarcodeScanning = false;
+              final url = barcode.barcodes.first.url!.url!;
+
+              await DynamicLinkService.dynamicLinkFromLink(context, url);
+            }
+          }),
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -42,7 +42,6 @@ class QrCodeScannerBody extends StatelessWidget {
           ),
         ],
       ),
-
     );
   }
 }
