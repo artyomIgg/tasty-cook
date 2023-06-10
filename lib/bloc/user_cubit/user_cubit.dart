@@ -7,7 +7,9 @@ import 'package:tasty_cook/services/database_service/database_service.dart';
 part 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
-  UserCubit() : super(UserInitial());
+  UserCubit() : super(UserInitial()) {
+    getUserFormApi();
+  }
 
   UserModel? user;
 

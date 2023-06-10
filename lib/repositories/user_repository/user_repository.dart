@@ -9,14 +9,14 @@ class UserRepository extends BaseUserRepository {
   @override
   Future<UserModel?> getUser() async {
     final response = await _httpService.request(
-        url: 'users/api/user', method: RequestMethods.get);
+        url: 'users/api/user/current', method: RequestMethods.get);
 
     if (response == null) {
       return null;
     }
 
-    if (response is Response && response.statusCode == 201) {
-      return UserModel.fromJson(response.data['user']);
+    if (response is Response && response.statusCode == 200) {
+      return UserModel.fromJson(response.data);
     } else {
       return null;
     }
