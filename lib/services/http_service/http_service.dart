@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:tasty_cook/services/database_service/database_service.dart';
 
-const _baseUrl = 'http://back.tastycook.live/';
+const _baseUrl = 'https://back.tastycook.live/';
 
 // Http request methods: post, get, put, delete, patch
 enum RequestMethods { post, get, put, delete, patch }
@@ -73,6 +73,13 @@ class HttpService {
           );
           Logger().i(response);
           break;
+        case RequestMethods.patch:
+          response = await _dio!.patch(
+            url,
+            data: data,
+            queryParameters: params,
+            options: options,
+          );
         default:
           response = await _dio!.get(
             url,

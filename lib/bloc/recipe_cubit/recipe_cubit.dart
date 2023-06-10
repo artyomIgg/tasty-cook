@@ -11,12 +11,15 @@ class RecipeCubit extends Cubit<RecipeState> {
     getRecipes();
   }
 
+  List<RecipeModel> recipesList = [];
+
   Future<List<RecipeModel>> getRecipes() async {
     emit(RecipeLoading());
 
     final List<RecipeModel>? recipes = await RecipeRepository().getRecipes();
 
     if (recipes != null) {
+      recipesList = recipes;
       emit(RecipeLoaded(recipes));
       return recipes;
     } else {
@@ -47,5 +50,21 @@ class RecipeCubit extends Cubit<RecipeState> {
     final RecipeModel? recipe = await RecipeRepository().getRecipeById(id: id);
 
     return recipe;
+  }
+
+  Future<void> likeRecipe(String id) async {
+    await RecipeRepository().likeRecipe(id: id);
+    final index =
+        recipesList.indexWhere((element) => element.id == int.parse(id));
+
+    recipesList[index].isUserLiked = !recipesList[index].isUserLiked;
+
+    if (recipesList[index].isUserLiked) {
+      recipesList[index].likes++;
+    } else {
+      recipesList[index].likes--;
+    }
+
+    emit(RecipeLiked());
   }
 }

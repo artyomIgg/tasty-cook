@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
+import 'package:tasty_cook/bloc/recipe_profile_cubit/recipe_profile_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/routing/app_router.dart';
@@ -27,7 +32,7 @@ class RecipeCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        height: 80,
+        height: 120,
         decoration: BoxDecoration(
           color: constants.Colors.darkGrey,
           borderRadius: BorderRadius.circular(12),
@@ -67,18 +72,22 @@ class RecipeCard extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          GestureDetector(
-                              child: const Icon(
-                                Icons.favorite,
-                                color: constants.Colors.lightRed,
-                                size: 16,
-                              )),
-                          const SizedBox(
-                            width: 6,
-                          ),
                           Text(
                             '${recipe.likes}',
                             style: constants.Styles.recipeCardDescription,
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          GestureDetector(
+                            onTap: () => _onLikePress(context, recipe),
+                            child: Icon(
+                              recipe.isUserLiked
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: constants.Colors.lightRed,
+                              size: 26,
+                            ),
                           ),
                         ],
                       ),
@@ -103,6 +112,27 @@ class RecipeCard extends StatelessWidget {
     context.router.push(
       RecipeRoute(
         recipe: recipe,
+      ),
+    );
+  }
+
+  void _onLikePress(BuildContext context, RecipeModel recipe) async {
+    final RecipeCubit cubit = BlocProvider.of<RecipeCubit>(context);
+    final RecipeProfileCubit recipeProfileCubit =
+        BlocProvider.of<RecipeProfileCubit>(context);
+
+    await cubit.likeRecipe(recipe.id.toString());
+    unawaited(recipeProfileCubit.getFavouriteRecipe());
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          recipe.isUserLiked
+              ? 'You have liked this recipe'
+              : 'You have disliked this recipe',
+          style: constants.Styles.textSmallGold,
+        ),
+        duration: const Duration(milliseconds: 700),
       ),
     );
   }

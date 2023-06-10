@@ -7,15 +7,17 @@ class RecipeModel {
     required this.userId,
     required this.user,
     required this.categories,
+    required this.isUserLiked,
   });
 
   final int id;
   final String title;
   final String description;
-  final int likes;
+  int likes;
   final String userId;
   final String? user;
   final List<String> categories;
+  bool isUserLiked;
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) => RecipeModel(
         id: json['id'],
@@ -27,6 +29,7 @@ class RecipeModel {
         categories: List<String>.from(json['categories'].map((e) {
           return e;
         })),
+        isUserLiked: json['isUserLiked'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,5 +40,6 @@ class RecipeModel {
         'userId': userId,
         'user': user,
         'categories': categories,
+        'isUserLiked': isUserLiked,
       };
 }

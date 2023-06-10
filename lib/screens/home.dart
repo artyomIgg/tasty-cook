@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tasty_cook/bloc/app_state_cubit/app_state_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
+import 'package:tasty_cook/bloc/recipe_profile_cubit/recipe_profile_cubit.dart';
 import 'package:tasty_cook/bloc/sign_in_cubit/sign_in_cubit.dart';
 import 'package:tasty_cook/bloc/user_cubit/user_cubit.dart';
 import 'package:tasty_cook/routing/app_route_init.dart';
 import 'package:tasty_cook/routing/app_router.dart';
 
+// ignore: must_be_immutable
 class Home extends StatefulWidget {
   Home({super.key, required this.appRouter});
 
@@ -39,6 +41,9 @@ class _HomeState extends State<Home> {
         ),
         BlocProvider<RecipeCubit>(
           create: (context) => RecipeCubit(),
+        ),
+        BlocProvider<RecipeProfileCubit>(
+          create: (context) => RecipeProfileCubit(),
         ),
       ],
       child: GestureDetector(

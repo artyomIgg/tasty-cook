@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
+import 'package:tasty_cook/bloc/recipe_profile_cubit/recipe_profile_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/widgets/main_button.dart';
 import 'package:tasty_cook/widgets/my_loader.dart';
@@ -208,6 +210,8 @@ class AddRecipeCreateBody extends StatelessWidget {
 
   Future<void> _createRecipe(BuildContext context) async {
     final RecipeCubit recipeCubit = BlocProvider.of<RecipeCubit>(context);
+    final RecipeProfileCubit recipeProfileCubit =
+        BlocProvider.of<RecipeProfileCubit>(context);
     final String html =
         RecipeLogicCubit().getHtmlFromDelta(_quillController.document);
 
@@ -223,5 +227,8 @@ class AddRecipeCreateBody extends StatelessWidget {
         ),
       );
     });
+
+    unawaited(recipeCubit.getRecipes()); // todo remove
+    unawaited(recipeProfileCubit.getMyRecipe());
   }
 }

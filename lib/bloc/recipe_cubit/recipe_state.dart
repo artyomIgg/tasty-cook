@@ -29,3 +29,6 @@ class RecipeCreateError extends RecipeState {
 
   RecipeCreateError(this.message);
 }
+
+// LIKE RECIPE
+class RecipeLiked extends RecipeState {}

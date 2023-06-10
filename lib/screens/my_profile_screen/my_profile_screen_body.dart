@@ -6,10 +6,15 @@ class MyProfileScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      color: constants.Colors.primaryGrey,
-      child: const Text('MyProfile'),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        body: Container(
+          alignment: Alignment.center,
+          color: constants.Colors.primaryGrey,
+          child: const Text('MyProfile'),
+        ),
+      ),
     );
   }
 }

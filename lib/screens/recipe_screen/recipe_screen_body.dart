@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
+import 'package:tasty_cook/bloc/recipe_profile_cubit/recipe_profile_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/services/dynamic_links_service/dynamic_link_service.dart';
@@ -9,18 +14,24 @@ import 'package:tasty_cook/utils/qr_code/qr_code_generator.dart';
 import 'package:tasty_cook/widgets/main_button.dart';
 import 'package:tasty_cook/widgets/my_loader.dart';
 
-class RecipeScreenBody extends StatelessWidget {
+// ignore: must_be_immutable
+class RecipeScreenBody extends StatefulWidget {
   RecipeScreenBody({
     super.key,
     required this.recipe,
   });
 
-  final RecipeModel recipe;
+  RecipeModel recipe;
 
+  @override
+  State<RecipeScreenBody> createState() => _RecipeScreenBodyState();
+}
+
+class _RecipeScreenBodyState extends State<RecipeScreenBody> {
   @override
   Widget build(BuildContext context) {
     final Widget description =
-        RecipeLogicCubit().getHtmlWidget(recipe.description);
+        RecipeLogicCubit().getHtmlWidget(widget.recipe.description);
 
     return Container(
       width: 100.w,
@@ -40,17 +51,19 @@ class RecipeScreenBody extends StatelessWidget {
                 Flexible(
                   flex: 10,
                   child: Text(
-                    recipe.title,
+                    widget.recipe.title,
                     style: constants.Styles.mainScreenTitle,
                   ),
                 ),
                 Flexible(
                   child: CupertinoButton(
                     padding: EdgeInsets.zero,
-                    onPressed: () {},
-                    child: const Icon(
-                      Icons.favorite_border,
-                      color: constants.Colors.white,
+                    onPressed: () => _onLikePress(context, widget.recipe),
+                    child: Icon(
+                      widget.recipe.isUserLiked
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: Colors.red,
                     ),
                   ),
                 ),
@@ -118,7 +131,7 @@ class RecipeScreenBody extends StatelessWidget {
                 children: [
                   FutureBuilder(
                     future: DynamicLinkService.createDynamicLinkRecipe(
-                        recipe.id.toString()),
+                        widget.recipe.id.toString()),
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.data != null) {
                         return QrCodeGenerator.getQrCodeImage(
@@ -140,7 +153,7 @@ class RecipeScreenBody extends StatelessWidget {
                       onPressed: () async {
                         final url =
                             await DynamicLinkService.createDynamicLinkRecipe(
-                                recipe.id.toString());
+                                widget.recipe.id.toString());
                         await QrCodeGenerator.shareQr(url);
                       },
                     ),
@@ -152,7 +165,7 @@ class RecipeScreenBody extends StatelessWidget {
                       onPressed: () async {
                         final url =
                             await DynamicLinkService.createDynamicLinkRecipe(
-                                recipe.id.toString());
+                                widget.recipe.id.toString());
                         await DynamicLinkService.shareLink(url);
                       },
                     ),
@@ -164,5 +177,28 @@ class RecipeScreenBody extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _onLikePress(BuildContext context, RecipeModel recipe) async {
+    final RecipeCubit cubit = BlocProvider.of<RecipeCubit>(context);
+    final RecipeProfileCubit recipeProfileCubit =
+        BlocProvider.of<RecipeProfileCubit>(context);
+
+    await cubit.likeRecipe(recipe.id.toString());
+    unawaited(recipeProfileCubit.getFavouriteRecipe());
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          recipe.isUserLiked
+              ? 'You have liked this recipe'
+              : 'You have disliked this recipe',
+          style: constants.Styles.textSmallGold,
+        ),
+        duration: const Duration(milliseconds: 700),
+      ),
+    );
+
+    setState(() {});
   }
 }

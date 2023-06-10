@@ -13,16 +13,17 @@ class MainScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeCubit, RecipeState>(
       builder: (context, state) {
+        final RecipeCubit cubit = BlocProvider.of<RecipeCubit>(context);
         return Container(
           color: constants.Colors.primaryGrey,
           alignment: Alignment.center,
-          child: state is RecipeLoaded
+          child: cubit.recipesList.isNotEmpty
               ? ListView.builder(
-                  itemCount: state.recipes.length,
+                  itemCount: cubit.recipesList.length,
                   itemBuilder: (context, i) {
                     return RecipeCard(
                       index: i,
-                      recipe: state.recipes[i],
+                      recipe: cubit.recipesList[i],
                     );
                   },
                 )
