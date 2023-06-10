@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tasty_cook/models/recipe/create_recipe_model.dart';
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/repositories/recipe_repository/recipe_repository.dart';
@@ -28,22 +29,24 @@ class RecipeCubit extends Cubit<RecipeState> {
     }
   }
 
-  Future<void> createRecipe(
+  Future<RecipeModel?> createRecipe(
     String title,
     String description,
     List<String> categories,
   ) async {
     emit(RecipeCreating());
 
-    final bool isCreated = await RecipeRepository().createRecipe(
+    final RecipeModel? recipe = await RecipeRepository().createRecipe(
         recipe: CreateRecipeModel(
             title: title, description: description, categories: categories));
 
-    if (isCreated) {
+    if (recipe != null) {
       emit(RecipeCreated());
     } else {
       emit(RecipeCreateError('Recipes not found'));
     }
+
+    return recipe;
   }
 
   Future<RecipeModel?> getRecipeById(String id) async {
@@ -80,5 +83,19 @@ class RecipeCubit extends Cubit<RecipeState> {
     }
 
     return isUpdated;
+  }
+
+  Future<bool> updatePhoto(String id, XFile file) async {
+    emit(RecipeCreating());
+    final bool isPhotoAdded =
+        await RecipeRepository().addPhotoToRecipe(id: id, photo: file);
+
+    if (isPhotoAdded) {
+      emit(RecipeCreated());
+    } else {
+      emit(RecipeCreateError('Recipes not found'));
+    }
+
+    return isPhotoAdded;
   }
 }

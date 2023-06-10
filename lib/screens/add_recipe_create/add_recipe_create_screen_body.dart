@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:html_editor_enhanced/html_editor.dart' as editor;
+import 'package:image_picker/image_picker.dart';
 // import 'package:quill_html_editor/quill_html_editor.dart' as quill;
 import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
@@ -34,6 +35,8 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
   late final TextEditingController _titleController =
       TextEditingController(text: widget.recipe?.title);
 
+  XFile? newPhoto;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -48,25 +51,20 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    // quill.QuillController.basic();
-    // final document = quill.Document()..insert(0, recipe!.description);
-    //
-    // document.toDelta();
-    // _quillController.document.insert(0, document);
-
-    // final q = quill.QuillController(document: quill.Document.fromDelta(delta), selection: TextSelection.collapsed(offset: 0),)
-
     return Container(
       alignment: Alignment.topCenter,
       color: constants.Colors.primaryGrey,
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // _photoContainer(context),
+            _photoContainer(context),
             const SizedBox(
               height: 26,
             ),
             _mainInfo(context, size),
+            const SizedBox(
+              height: 26,
+            ),
           ],
         ),
       ),
@@ -74,23 +72,36 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
   }
 
   Widget _photoContainer(BuildContext context) {
+    final RecipeModel? recipe = widget.recipe;
     return CupertinoButton(
       onPressed: () => _onTapButton(context),
       padding: EdgeInsets.zero,
       child: BlocBuilder<RecipeLogicCubit, RecipeLogicState>(
         builder: (context, state) {
+          if (state is UploadPhotoSuccess) {
+            newPhoto = state.photo;
+          }
+
+          final image = recipe != null &&
+                  recipe.imageUrl != null &&
+                  recipe.imageUrl!.isNotEmpty
+              ? state is UploadPhotoSuccess
+                  ? FileImage(File(state.photo.path))
+                  : NetworkImage(recipe.imageUrl!)
+              : state is UploadPhotoSuccess
+                  ? FileImage(File(state.photo.path))
+                  : null;
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 20),
             alignment: Alignment.center,
             height: 180,
             decoration: BoxDecoration(
-              color: constants.Colors.white.withOpacity(.2),
-              image: state is UploadPhotoSuccess
-                  ? DecorationImage(
-                      image: FileImage(File(state.photo.path)),
-                      fit: BoxFit.cover)
-                  : null,
-            ),
+                color: constants.Colors.white.withOpacity(.2),
+                image: image != null
+                    ? DecorationImage(
+                        image: image as ImageProvider<Object>,
+                        fit: BoxFit.cover)
+                    : null),
             child: Column(
               children: [
                 const Icon(
@@ -160,33 +171,6 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
             ),
           ),
           _myDivider(),
-          // quill.ToolBar(
-          //   controller: _quillEditorController,
-          //   // showDividers: false,
-          //   // multiRowsDisplay: false,
-          //   // showUnderLineButton: false,
-          //   // showStrikeThrough: false,
-          //   // showInlineCode: false,
-          //   // showColorButton: false,
-          //   // showBackgroundColorButton: false,
-          //   // showClearFormat: false,
-          //   // showLeftAlignment: false,
-          //   // showCenterAlignment: false,
-          //   // showRightAlignment: false,
-          //   // showJustifyAlignment: false,
-          //   // showListCheck: false,
-          //   // showCodeBlock: false,
-          //   // showQuote: false,
-          //   // showIndent: false,
-          //   // showLink: false,
-          //   // showUndo: false,
-          //   // showRedo: false,
-          //   // showSearchButton: false,
-          //   // showSubscript: false,
-          //   // showSuperscript: false,
-          // ),
-          // Expanded(
-          //   child:
           const SizedBox(
             height: 16,
           ),
@@ -269,9 +253,14 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
 
     final String recipeHtml = await _editorController.getText();
 
-    await recipeCubit
-        .createRecipe(_titleController.text, recipeHtml, []).then((value) {
-      context.router.pop();
+    await recipeCubit.createRecipe(_titleController.text, recipeHtml, []).then(
+        (value) async {
+      if (newPhoto != null && value != null) {
+        await recipeCubit.updatePhoto(value.id.toString(), newPhoto!);
+      }
+      // ignore: use_build_context_synchronously
+      unawaited(context.router.pop());
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -297,6 +286,9 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
     widget.recipe!.title = _titleController.text;
 
     final bool isRecipeUpdated = await recipeCubit.updateRecipe(widget.recipe!);
+    if (newPhoto != null) {
+      await recipeCubit.updatePhoto(widget.recipe!.id.toString(), newPhoto!);
+    }
 
     // ignore: use_build_context_synchronously
     unawaited(context.router.pop());

@@ -28,6 +28,10 @@ class RecipeCard extends StatelessWidget {
     final Widget description = RecipeLogicCubit()
         .getHtmlWidget(recipe.description, color: 'white', fontSize: 12);
 
+    final image = recipe.imageUrl != null && recipe.imageUrl!.isNotEmpty
+        ? NetworkImage(recipe.imageUrl!)
+        : const AssetImage(constants.Assets.recipePreview);
+
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: () => _onCardPress(context, recipe),
@@ -49,14 +53,17 @@ class RecipeCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 60,
-              height: 60,
+              width: 80,
+              height: 80,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: Colors.white,
+                ),
                 color: Colors.white,
-                image: const DecorationImage(
-                  image: AssetImage(constants.Assets.recipePreview),
-                  fit: BoxFit.fill,
+                image: DecorationImage(
+                  image: image as ImageProvider,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

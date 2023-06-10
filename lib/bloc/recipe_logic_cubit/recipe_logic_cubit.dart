@@ -12,7 +12,8 @@ class RecipeLogicCubit extends Cubit<RecipeLogicState> {
 
   Future<XFile?> pickPhoto() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? image =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 30);
 
     if (image != null) {
       emit(UploadPhotoSuccess(image));

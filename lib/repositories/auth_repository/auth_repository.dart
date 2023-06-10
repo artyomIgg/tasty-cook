@@ -16,7 +16,7 @@ class AuthRepository extends BaseAuthRepository {
     final response = await _httpService.request(
       url: 'users/api/user/login',
       method: RequestMethods.post,
-      params: anonymousUser.toJson(),
+      data: anonymousUser.toJson(),
     );
 
     if (response == null) {
@@ -35,7 +35,7 @@ class AuthRepository extends BaseAuthRepository {
     await _httpService.init();
 
     final response = await _httpService
-        .request(url: 'user/register', method: RequestMethods.post, params: {
+        .request(url: 'user/register', method: RequestMethods.post, data: {
       'token': token,
     });
 
@@ -58,7 +58,7 @@ class AuthRepository extends BaseAuthRepository {
     final response = await _httpService.request(
       url: 'users/api/user/register',
       method: RequestMethods.post,
-      params: anonymousUser.toJson(),
+      data: anonymousUser.toJson(),
     );
 
     Logger().d(response);

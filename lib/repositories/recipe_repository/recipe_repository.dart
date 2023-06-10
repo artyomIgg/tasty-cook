@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tasty_cook/models/recipe/create_recipe_model.dart';
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/repositories/recipe_repository/recipe_repository_base.dart';
@@ -28,22 +29,22 @@ class RecipeRepository extends RecipeRepositoryBase {
   }
 
   @override
-  Future<bool> createRecipe({required CreateRecipeModel recipe}) async {
+  Future<RecipeModel?> createRecipe({required CreateRecipeModel recipe}) async {
     await _httpService.init();
 
     final response = await _httpService.request(
       url: 'recipes/api/recipes',
       method: RequestMethods.post,
-      params: recipe.toJson(),
+      data: recipe.toJson(),
     );
 
     if (response != null &&
         response is Response &&
-        response.statusCode == 201) {
-      return true;
+        (response.statusCode == 200 || response.statusCode == 201)) {
+      return RecipeModel.fromJson(response.data);
     }
 
-    return false;
+    return null;
   }
 
   @override
@@ -125,7 +126,31 @@ class RecipeRepository extends RecipeRepositoryBase {
     final response = await _httpService.request(
       url: 'recipes/api/recipes',
       method: RequestMethods.patch,
-      params: recipe.toJson(),
+      data: recipe.toJson(),
+    );
+
+    if (response != null &&
+        response is Response &&
+        response.statusCode == 201) {
+      return true;
+    }
+
+    return false;
+  }
+
+  @override
+  Future<bool> addPhotoToRecipe(
+      {required String id, required XFile photo}) async {
+    await _httpService.init();
+
+    final FormData formData = FormData.fromMap({
+      'data': await MultipartFile.fromFile(photo.path, filename: photo.name),
+    });
+
+    final response = await _httpService.request(
+      url: 'recipes/api/recipes/$id/image',
+      method: RequestMethods.patch,
+      data: formData,
     );
 
     if (response != null &&

@@ -27,8 +27,7 @@ class HttpService {
   Future<dynamic> request({
     required String url,
     required RequestMethods method,
-    Map<String, dynamic>? params,
-    Map<String, dynamic>? data,
+    dynamic data,
   }) async {
     await init();
     Response response;
@@ -43,7 +42,7 @@ class HttpService {
         case RequestMethods.post:
           response = await _dio!.post(
             url,
-            data: params,
+            data: data,
             options: options,
           );
           Logger().i(response);
@@ -51,7 +50,7 @@ class HttpService {
         case RequestMethods.get:
           response = await _dio!.get(
             url,
-            queryParameters: params,
+            queryParameters: data,
             options: options,
           );
           Logger().i(response);
@@ -59,8 +58,7 @@ class HttpService {
         case RequestMethods.put:
           response = await _dio!.put(
             url,
-            data: params,
-            queryParameters: params,
+            data: data,
             options: options,
           );
           Logger().i(response);
@@ -68,7 +66,7 @@ class HttpService {
         case RequestMethods.delete:
           response = await _dio!.delete(
             url,
-            queryParameters: params,
+            queryParameters: data,
             options: options,
           );
           Logger().i(response);
@@ -76,14 +74,13 @@ class HttpService {
         case RequestMethods.patch:
           response = await _dio!.patch(
             url,
-            data: params,
-            queryParameters: params,
+            data: data,
             options: options,
           );
         default:
           response = await _dio!.get(
             url,
-            queryParameters: params,
+            queryParameters: data,
             options: options,
           );
           Logger().i(response);
