@@ -8,4 +8,5 @@ abstract class RecipeRepositoryBase {
   Future<bool> createRecipe({required CreateRecipeModel recipe});
   Future<RecipeModel?> getRecipeById({required String id});
   Future<void> likeRecipe({required String id});
+  Future<bool> updateMyRecipe({required RecipeModel recipe});
 }

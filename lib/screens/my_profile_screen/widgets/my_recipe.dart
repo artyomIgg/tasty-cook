@@ -18,6 +18,7 @@ class MyRecipes extends StatelessWidget {
             return RecipeCard(
               index: i,
               recipe: cubit.recipesMyList[i],
+              isFromProfile: true,
             );
           },
         );

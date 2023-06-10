@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tasty_cook">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="tasty_cook"
         android:name="${applicationName}"

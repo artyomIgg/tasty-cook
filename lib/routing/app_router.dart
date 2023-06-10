@@ -5,6 +5,7 @@ import 'package:tasty_cook/screens/add_recipe/add_recipe_screen.dart';
 import 'package:tasty_cook/screens/add_recipe_create/add_recipe_create_screen.dart';
 import 'package:tasty_cook/screens/main_screen/main_screen.dart';
 import 'package:tasty_cook/screens/my_profile_screen/my_profile_screen.dart';
+import 'package:tasty_cook/screens/qr_code_scanner_screen/qr_code_scanner_screen.dart';
 import 'package:tasty_cook/screens/recipe_screen/recipe_screen.dart';
 import 'package:tasty_cook/screens/reset_password_screen/reset_password_screen.dart';
 import 'package:tasty_cook/screens/search_screen/search_screen.dart';

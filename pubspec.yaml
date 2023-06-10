@@ -58,8 +58,7 @@ dependencies:
 
   # util
   email_validator: ^2.1.17
-  flutter_quill: ^7.2.1
-  vsc_quill_delta_to_html: ^1.0.3
+  html_editor_enhanced: ^2.5.1
   flutter_widget_from_html: ^0.10.1
   dio: ^5.1.2
   qr_flutter: ^4.1.0

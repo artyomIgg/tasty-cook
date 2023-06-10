@@ -117,4 +117,23 @@ class RecipeRepository extends RecipeRepositoryBase {
 
     return null;
   }
+
+  @override
+  Future<bool> updateMyRecipe({required RecipeModel recipe}) async {
+    await _httpService.init();
+
+    final response = await _httpService.request(
+      url: 'recipes/api/recipes',
+      method: RequestMethods.patch,
+      params: recipe.toJson(),
+    );
+
+    if (response != null &&
+        response is Response &&
+        response.statusCode == 201) {
+      return true;
+    }
+
+    return false;
+  }
 }

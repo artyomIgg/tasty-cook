@@ -19,9 +19,11 @@ class RecipeScreenBody extends StatefulWidget {
   RecipeScreenBody({
     super.key,
     required this.recipe,
+    this.isFromProfile = false,
   });
 
   RecipeModel recipe;
+  final bool isFromProfile;
 
   @override
   State<RecipeScreenBody> createState() => _RecipeScreenBodyState();
@@ -47,7 +49,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Flexible(child: SizedBox()),
+                const Flexible(child: SizedBox()),
                 Flexible(
                   flex: 10,
                   child: Text(
@@ -114,7 +116,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Center(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               // alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -179,7 +181,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
     );
   }
 
-  void _onLikePress(BuildContext context, RecipeModel recipe) async {
+  Future<void> _onLikePress(BuildContext context, RecipeModel recipe) async {
     final RecipeCubit cubit = BlocProvider.of<RecipeCubit>(context);
     final RecipeProfileCubit recipeProfileCubit =
         BlocProvider.of<RecipeProfileCubit>(context);
@@ -187,6 +189,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
     await cubit.likeRecipe(recipe.id.toString());
     unawaited(recipeProfileCubit.getFavouriteRecipe());
 
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(

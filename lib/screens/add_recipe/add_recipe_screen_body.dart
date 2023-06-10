@@ -38,6 +38,6 @@ class AddRecipeScreenBody extends StatelessWidget {
   }
 
   void _onTapButton(BuildContext context) {
-    context.router.push(const AddRecipeCreateRoute());
+    context.router.push(AddRecipeCreateRoute());
   }
 }

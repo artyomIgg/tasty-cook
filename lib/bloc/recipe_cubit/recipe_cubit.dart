@@ -67,4 +67,18 @@ class RecipeCubit extends Cubit<RecipeState> {
 
     emit(RecipeLiked());
   }
+
+  Future<bool> updateRecipe(RecipeModel recipe) async {
+    emit(RecipeCreating());
+    final bool isUpdated =
+        await RecipeRepository().updateMyRecipe(recipe: recipe);
+
+    if (isUpdated) {
+      emit(RecipeCreated());
+    } else {
+      emit(RecipeCreateError('Recipes not found'));
+    }
+
+    return isUpdated;
+  }
 }

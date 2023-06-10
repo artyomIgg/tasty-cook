@@ -16,10 +16,12 @@ class RecipeCard extends StatelessWidget {
     super.key,
     required this.index,
     required this.recipe,
+    this.isFromProfile = false,
   });
 
   final int index;
   final RecipeModel recipe;
+  final bool isFromProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -109,14 +111,19 @@ class RecipeCard extends StatelessWidget {
   }
 
   void _onCardPress(BuildContext context, RecipeModel recipe) {
-    context.router.push(
-      RecipeRoute(
-        recipe: recipe,
-      ),
-    );
+    isFromProfile
+        ? context.router.push(
+            AddRecipeCreateRoute(recipe: recipe, isFromProfile: true),
+          )
+        : context.router.push(
+            RecipeRoute(
+              recipe: recipe,
+              isFromProfile: isFromProfile,
+            ),
+          );
   }
 
-  void _onLikePress(BuildContext context, RecipeModel recipe) async {
+  Future<void> _onLikePress(BuildContext context, RecipeModel recipe) async {
     final RecipeCubit cubit = BlocProvider.of<RecipeCubit>(context);
     final RecipeProfileCubit recipeProfileCubit =
         BlocProvider.of<RecipeProfileCubit>(context);
@@ -124,6 +131,7 @@ class RecipeCard extends StatelessWidget {
     await cubit.likeRecipe(recipe.id.toString());
     unawaited(recipeProfileCubit.getFavouriteRecipe());
 
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(

@@ -11,12 +11,12 @@ class RecipeModel {
   });
 
   final int id;
-  final String title;
-  final String description;
+  String title;
+  String description;
   int likes;
   final String userId;
   final String? user;
-  final List<String> categories;
+  List<String> categories;
   bool isUserLiked;
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) => RecipeModel(

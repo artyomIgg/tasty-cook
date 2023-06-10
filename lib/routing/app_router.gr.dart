@@ -28,6 +28,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: RecipeScreen(
           key: args.key,
           recipe: args.recipe,
+          isFromProfile: args.isFromProfile,
         ),
       );
     },
@@ -37,6 +38,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AddRecipeScreen(),
       );
     },
+    QrCodeScannerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const QrCodeScannerScreen(),
+      );
+    },
     MyProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -44,9 +51,15 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     AddRecipeCreateRoute.name: (routeData) {
+      final args = routeData.argsAs<AddRecipeCreateRouteArgs>(
+          orElse: () => const AddRecipeCreateRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AddRecipeCreateScreen(),
+        child: AddRecipeCreateScreen(
+          key: args.key,
+          recipe: args.recipe,
+          isFromProfile: args.isFromProfile,
+        ),
       );
     },
     SignInRoute.name: (routeData) {
@@ -104,12 +117,14 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
   RecipeRoute({
     Key? key,
     required RecipeModel recipe,
+    bool isFromProfile = false,
     List<PageRouteInfo>? children,
   }) : super(
           RecipeRoute.name,
           args: RecipeRouteArgs(
             key: key,
             recipe: recipe,
+            isFromProfile: isFromProfile,
           ),
           initialChildren: children,
         );
@@ -123,15 +138,18 @@ class RecipeRouteArgs {
   const RecipeRouteArgs({
     this.key,
     required this.recipe,
+    this.isFromProfile = false,
   });
 
   final Key? key;
 
   final RecipeModel recipe;
 
+  final bool isFromProfile;
+
   @override
   String toString() {
-    return 'RecipeRouteArgs{key: $key, recipe: $recipe}';
+    return 'RecipeRouteArgs{key: $key, recipe: $recipe, isFromProfile: $isFromProfile}';
   }
 }
 
@@ -145,6 +163,20 @@ class AddRecipeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AddRecipeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [QrCodeScannerScreen]
+class QrCodeScannerRoute extends PageRouteInfo<void> {
+  const QrCodeScannerRoute({List<PageRouteInfo>? children})
+      : super(
+          QrCodeScannerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'QrCodeScannerRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -165,16 +197,45 @@ class MyProfileRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [AddRecipeCreateScreen]
-class AddRecipeCreateRoute extends PageRouteInfo<void> {
-  const AddRecipeCreateRoute({List<PageRouteInfo>? children})
-      : super(
+class AddRecipeCreateRoute extends PageRouteInfo<AddRecipeCreateRouteArgs> {
+  AddRecipeCreateRoute({
+    Key? key,
+    RecipeModel? recipe,
+    bool isFromProfile = false,
+    List<PageRouteInfo>? children,
+  }) : super(
           AddRecipeCreateRoute.name,
+          args: AddRecipeCreateRouteArgs(
+            key: key,
+            recipe: recipe,
+            isFromProfile: isFromProfile,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddRecipeCreateRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AddRecipeCreateRouteArgs> page =
+      PageInfo<AddRecipeCreateRouteArgs>(name);
+}
+
+class AddRecipeCreateRouteArgs {
+  const AddRecipeCreateRouteArgs({
+    this.key,
+    this.recipe,
+    this.isFromProfile = false,
+  });
+
+  final Key? key;
+
+  final RecipeModel? recipe;
+
+  final bool isFromProfile;
+
+  @override
+  String toString() {
+    return 'AddRecipeCreateRouteArgs{key: $key, recipe: $recipe, isFromProfile: $isFromProfile}';
+  }
 }
 
 /// generated route for

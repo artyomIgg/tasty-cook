@@ -9,9 +9,11 @@ class RecipeScreen extends StatelessWidget {
   const RecipeScreen({
     super.key,
     required this.recipe,
+    this.isFromProfile = false,
   });
 
   final RecipeModel recipe;
+  final bool isFromProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class RecipeScreen extends StatelessWidget {
         ),
         body: RecipeScreenBody(
           recipe: recipe,
+          isFromProfile: isFromProfile,
         ),
       ),
     );

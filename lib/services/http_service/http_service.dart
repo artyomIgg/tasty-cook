@@ -59,7 +59,7 @@ class HttpService {
         case RequestMethods.put:
           response = await _dio!.put(
             url,
-            data: data,
+            data: params,
             queryParameters: params,
             options: options,
           );
@@ -76,7 +76,7 @@ class HttpService {
         case RequestMethods.patch:
           response = await _dio!.patch(
             url,
-            data: data,
+            data: params,
             queryParameters: params,
             options: options,
           );
