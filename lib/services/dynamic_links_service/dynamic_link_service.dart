@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
@@ -65,7 +66,7 @@ class DynamicLinkService {
         }
       }
     }).onError((error) {
-      // Handle errors
+      Logger().e(error.toString());
     });
   }
 
