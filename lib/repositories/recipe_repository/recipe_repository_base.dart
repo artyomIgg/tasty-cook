@@ -12,4 +12,5 @@ abstract class RecipeRepositoryBase {
   Future<bool> updateMyRecipe({required RecipeModel recipe});
   Future<bool> addPhotoToRecipe({required String id, required XFile photo});
   Future<bool> deleteRecipe({required String id});
+  Future<List<RecipeModel>> searchRecipes({required String query});
 }

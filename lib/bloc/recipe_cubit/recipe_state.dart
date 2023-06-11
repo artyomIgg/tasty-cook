@@ -43,3 +43,18 @@ class RecipeDeleteError extends RecipeState {
 }
 
 class RecipeDeleteLoading extends RecipeState {}
+
+// SEARCH RECIPE
+class RecipeSearchLoading extends RecipeState {}
+
+class RecipeSearchLoaded extends RecipeState {
+  final List<RecipeModel> recipes;
+
+  RecipeSearchLoaded(this.recipes);
+}
+
+class RecipeSearchError extends RecipeState {
+  final String message;
+
+  RecipeSearchError(this.message);
+}

@@ -111,4 +111,19 @@ class RecipeCubit extends Cubit<RecipeState> {
 
     return isDeleted;
   }
+
+  Future<List<RecipeModel>> searchRecipes(String query) async {
+    emit(RecipeSearchLoading());
+
+    final List<RecipeModel> recipes =
+        await RecipeRepository().searchRecipes(query: query);
+
+    if (recipes.isNotEmpty) {
+      emit(RecipeSearchLoaded(recipes));
+      return recipes;
+    } else {
+      emit(RecipeSearchError('Recipes not found'));
+      return [];
+    }
+  }
 }

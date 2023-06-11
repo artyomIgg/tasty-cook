@@ -179,4 +179,29 @@ class RecipeRepository extends RecipeRepositoryBase {
 
     return false;
   }
+
+  @override
+  Future<List<RecipeModel>> searchRecipes({required String query}) async {
+    await _httpService.init();
+
+    final response = await _httpService.request(
+      url: 'recipes/api/recipes',
+      method: RequestMethods.get,
+      data: {
+        'searchValue': query,
+      }
+    );
+
+    print('recipeSearch');
+
+    if (response != null &&
+        response is Response &&
+        response.statusCode == 200) {
+      return List<RecipeModel>.from(response.data['recipes'].map((e) {
+        return RecipeModel.fromJson(e);
+      }));
+    }
+
+    return [];
+  }
 }

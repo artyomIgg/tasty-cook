@@ -19,6 +19,7 @@ class MyTextField extends TextFormField {
     InputBorder? focusedBorder,
     Widget? icon,
     Color? iconColor,
+    super.autofocus,
   }) : super(
           decoration: InputDecoration(
             // labelText: hintText,

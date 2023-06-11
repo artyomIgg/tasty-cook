@@ -117,7 +117,7 @@ class _MainScreenState extends State<MainScreen> {
             onPressed: () {
               _controller.jumpToTab(1);
             },
-            child: const IgnorePointer(child: MySearchWidget()),
+            child: const IgnorePointer(child: MySearchWidget(controller: null,)),
           ),
         ),
         backgroundColor: constants.Colors.primaryYellow,
