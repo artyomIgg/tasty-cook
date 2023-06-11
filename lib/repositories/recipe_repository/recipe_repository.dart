@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tasty_cook/models/recipe/create_recipe_model.dart';
+import 'package:tasty_cook/models/recipe/recipe_comment_model.dart';
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/repositories/recipe_repository/recipe_repository_base.dart';
 import 'package:tasty_cook/services/http_service/http_service.dart';
@@ -184,13 +185,10 @@ class RecipeRepository extends RecipeRepositoryBase {
   Future<List<RecipeModel>> searchRecipes({required String query}) async {
     await _httpService.init();
 
-    final response = await _httpService.request(
-      url: 'recipes/api/recipes',
-      method: RequestMethods.get,
-      data: {
-        'searchValue': query,
-      }
-    );
+    final response = await _httpService
+        .request(url: 'recipes/api/recipes', method: RequestMethods.get, data: {
+      'searchValue': query,
+    });
 
     print('recipeSearch');
 
@@ -199,6 +197,52 @@ class RecipeRepository extends RecipeRepositoryBase {
         response.statusCode == 200) {
       return List<RecipeModel>.from(response.data['recipes'].map((e) {
         return RecipeModel.fromJson(e);
+      }));
+    }
+
+    return [];
+  }
+
+  // RECIPE COMMENTS
+
+  @override
+  Future<bool> createComment(
+      {required String comment, required String recipeId}) async {
+    await _httpService.init();
+
+    final response = await _httpService.request(
+      url: 'recipes/api/comments',
+      method: RequestMethods.post,
+      data: {
+        'recipeId': recipeId,
+        'commentValue': comment,
+      },
+    );
+
+    if (response != null &&
+        response is Response &&
+        (response.statusCode == 200 || response.statusCode == 201)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  @override
+  Future<List<RecipeCommentModel>> getComments(
+      {required String recipeId}) async {
+    await _httpService.init();
+
+    final response = await _httpService.request(
+      url: 'recipes/api/comments/$recipeId',
+      method: RequestMethods.get,
+    );
+
+    if (response != null &&
+        response is Response &&
+        response.statusCode == 200) {
+      return List<RecipeCommentModel>.from(response.data.map((e) {
+        return RecipeCommentModel.fromJson(e);
       }));
     }
 

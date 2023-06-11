@@ -30,6 +30,8 @@ abstract class  LocaleKeys {
   static const share_with_link = 'share_with_link';
   static const you_are_disliked_this_recipe = 'you_are_disliked_this_recipe';
   static const you_have_liked_this_recipe = 'you_have_liked_this_recipe';
+  static const comment = 'comment';
+  static const your_comment = 'your_comment';
   static const add_recipe = 'add_recipe';
   static const add_recipe_about = 'add_recipe_about';
   static const add_new_recipe = 'add_new_recipe';

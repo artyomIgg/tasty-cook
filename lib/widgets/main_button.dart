@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 
-
 class MainButton extends StatelessWidget {
   const MainButton({
     super.key,
     required this.text,
     required this.onPressed,
+    this.icon,
   });
 
   final String text;
+  final Widget? icon;
   final Function()? onPressed;
 
   @override
@@ -29,10 +30,14 @@ class MainButton extends StatelessWidget {
             colors: [
               constants.Colors.brightYellow,
               constants.Colors.lightYellow,
-            ]
-          )
+            ],
+          ),
         ),
-        child: Text(text, style: constants.Styles.textFieldBlack,),
+        child: icon ??
+            Text(
+              text,
+              style: constants.Styles.textFieldBlack,
+            ),
       ),
     );
   }

@@ -15,6 +15,7 @@ import 'package:tasty_cook/services/dynamic_links_service/dynamic_link_service.d
 import 'package:tasty_cook/utils/qr_code/qr_code_generator.dart';
 import 'package:tasty_cook/widgets/main_button.dart';
 import 'package:tasty_cook/widgets/my_loader.dart';
+import 'package:tasty_cook/widgets/recipe_comment/recipe_comment_main.dart';
 
 // ignore: must_be_immutable
 class RecipeScreenBody extends StatefulWidget {
@@ -32,6 +33,11 @@ class RecipeScreenBody extends StatefulWidget {
 }
 
 class _RecipeScreenBodyState extends State<RecipeScreenBody> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Widget description =
@@ -94,6 +100,17 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
                 color: Colors.white.withOpacity(0.8),
               ),
               child: description,
+            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: _myDivider()),
+            Text(
+              LocaleKeys.comment.tr(),
+              style: constants.Styles.mainScreenTitle,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: RecipeCommentMain(recipe: widget.recipe,),
             )
           ],
         ),
@@ -113,8 +130,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
       decoration: BoxDecoration(
           color: constants.Colors.white.withOpacity(.2),
           image: DecorationImage(
-                  image: image as ImageProvider<Object>, fit: BoxFit.cover)
-              ),
+              image: image as ImageProvider<Object>, fit: BoxFit.cover)),
     );
   }
 
