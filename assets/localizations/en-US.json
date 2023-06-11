@@ -45,6 +45,10 @@
   "your_recipe_successfully_created": "Your recipe successfully created",
   "update_your_recipe": "Update your recipe",
   "update": "Update",
+  "are_you_sure_you_want_to_delete_this_recipe": "Are you sure you want to delete this recipe?",
+  "recipe_deleted_successfully": "Recipe deleted successfully",
+  "yes": "Yes",
+  "no": "No",
 
   "hello_user": "Hello, {userName}!",
   "favorites": "Favorites",

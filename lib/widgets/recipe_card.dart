@@ -12,6 +12,7 @@ import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/routing/app_router.dart';
+import 'package:tasty_cook/widgets/delete_recipe_dialog.dart';
 
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
@@ -90,16 +91,7 @@ class RecipeCard extends StatelessWidget {
                           const SizedBox(
                             width: 6,
                           ),
-                          GestureDetector(
-                            onTap: () => _onLikePress(context, recipe),
-                            child: Icon(
-                              recipe.isUserLiked
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: constants.Colors.lightRed,
-                              size: 26,
-                            ),
-                          ),
+                          _sideButton(context, recipe),
                         ],
                       ),
                     ],
@@ -117,6 +109,70 @@ class RecipeCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _sideButton(BuildContext context, RecipeModel recipe) {
+    return isFromProfile
+        ? _removeButton(context, recipe)
+        : _likeButton(context, recipe);
+  }
+
+  Widget _likeButton(BuildContext context, RecipeModel recipe) {
+    return GestureDetector(
+      onTap: () => _onLikePress(context, recipe),
+      child: Icon(
+        recipe.isUserLiked ? Icons.favorite : Icons.favorite_border,
+        color: constants.Colors.lightRed,
+        size: 26,
+      ),
+    );
+  }
+
+  Widget _removeButton(BuildContext context, RecipeModel recipe) {
+    return GestureDetector(
+      onTap: () => _showRemoveDialog(context),
+      child: const Icon(
+        Icons.highlight_remove,
+        color: constants.Colors.lightRed,
+        size: 26,
+      ),
+    );
+  }
+
+  Future<void> _showRemoveDialog(BuildContext context) async {
+    await showGeneralDialog(
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      context: context,
+      pageBuilder: (BuildContext buildContext, Animation animation,
+          Animation secondaryAnimation) {
+        // dialogContext = context;
+        return const DeleteRecipeDialog();
+      },
+    ).then((value) async {
+      if (value is bool && value) {
+        final RecipeCubit cubit = BlocProvider.of<RecipeCubit>(context);
+        final bool isDeleted = await cubit.deleteRecipe(recipe.id.toString());
+
+        if (isDeleted) {
+          final RecipeProfileCubit recipeProfileCubit =
+              BlocProvider.of<RecipeProfileCubit>(context);
+          final RecipeCubit recipeCubit = BlocProvider.of<RecipeCubit>(context);
+          unawaited(recipeCubit.getRecipes());
+          unawaited(recipeProfileCubit.getMyRecipe());
+          unawaited(recipeProfileCubit.getFavouriteRecipe());
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                LocaleKeys.recipe_deleted_successfully.tr(),
+                style: constants.Styles.textSmallGold,
+              ),
+            ),
+          );
+        }
+      }
+    });
   }
 
   void _onCardPress(BuildContext context, RecipeModel recipe) {

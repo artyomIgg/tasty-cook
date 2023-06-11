@@ -161,4 +161,22 @@ class RecipeRepository extends RecipeRepositoryBase {
 
     return false;
   }
+
+  @override
+  Future<bool> deleteRecipe({required String id}) async {
+    await _httpService.init();
+
+    final response = await _httpService.request(
+      url: 'recipes/api/recipes/$id',
+      method: RequestMethods.delete,
+    );
+
+    if (response != null &&
+        response is Response &&
+        response.statusCode == 200) {
+      return true;
+    }
+
+    return false;
+  }
 }

@@ -98,4 +98,17 @@ class RecipeCubit extends Cubit<RecipeState> {
 
     return isPhotoAdded;
   }
+
+  Future<bool> deleteRecipe(String id) async {
+    emit(RecipeDeleteLoading());
+    final bool isDeleted = await RecipeRepository().deleteRecipe(id: id);
+
+    if (isDeleted) {
+      emit(RecipeDeleted());
+    } else {
+      emit(RecipeDeleteError('Recipes not found'));
+    }
+
+    return isDeleted;
+  }
 }

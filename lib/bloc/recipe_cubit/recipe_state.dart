@@ -32,3 +32,14 @@ class RecipeCreateError extends RecipeState {
 
 // LIKE RECIPE
 class RecipeLiked extends RecipeState {}
+
+// DELETE RECIPE
+class RecipeDeleted extends RecipeState {}
+
+class RecipeDeleteError extends RecipeState {
+  final String message;
+
+  RecipeDeleteError(this.message);
+}
+
+class RecipeDeleteLoading extends RecipeState {}

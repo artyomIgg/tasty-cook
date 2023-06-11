@@ -46,6 +46,10 @@ abstract class  LocaleKeys {
   static const your_recipe_successfully_created = 'your_recipe_successfully_created';
   static const update_your_recipe = 'update_your_recipe';
   static const update = 'update';
+  static const are_you_sure_you_want_to_delete_this_recipe = 'are_you_sure_you_want_to_delete_this_recipe';
+  static const recipe_deleted_successfully = 'recipe_deleted_successfully';
+  static const yes = 'yes';
+  static const no = 'no';
   static const hello_user = 'hello_user';
   static const favorites = 'favorites';
   static const my = 'my';

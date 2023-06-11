@@ -11,4 +11,5 @@ abstract class RecipeRepositoryBase {
   Future<void> likeRecipe({required String id});
   Future<bool> updateMyRecipe({required RecipeModel recipe});
   Future<bool> addPhotoToRecipe({required String id, required XFile photo});
+  Future<bool> deleteRecipe({required String id});
 }
