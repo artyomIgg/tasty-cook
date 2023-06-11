@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/widgets/text_fields/my_text_filed.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 
@@ -8,7 +10,7 @@ class MySearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyTextField(
-      hintText: 'Input your ingredients',
+      hintText: LocaleKeys.input_your_ingredients.tr(),
       color: Colors.transparent,
       icon: const Icon(Icons.search),
       iconColor: constants.Colors.primaryBlack,

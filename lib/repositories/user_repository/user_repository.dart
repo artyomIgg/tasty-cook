@@ -21,4 +21,30 @@ class UserRepository extends BaseUserRepository {
       return null;
     }
   }
+
+  @override
+  Future<bool> changePassword({
+    required String oldPassword,
+    required String newPassword1,
+    required String newPassword2,
+  }) async {
+    await _httpService.init();
+
+    final response = await _httpService.request(
+        url: 'users/api/user/change-password',
+        method: RequestMethods.put,
+        data: {
+            "currentPassword": oldPassword,
+            "newPassword": newPassword1,
+            "repeatNewPassword": newPassword2,
+        });
+
+    if (response != null &&
+        response is Response &&
+        (response.statusCode == 200 || response.statusCode == 201)) {
+      return true;
+    }
+
+    return false;
+  }
 }

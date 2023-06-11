@@ -1,10 +1,12 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:auto_route/annotations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
+import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/screens/add_recipe_create/add_recipe_create_screen_body.dart';
 
@@ -28,7 +30,9 @@ class AddRecipeCreateScreen extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-              isFromProfile ? 'Update your Recipe' : 'Create new recipe',
+              isFromProfile
+                  ? LocaleKeys.update_your_recipe.tr()
+                  : LocaleKeys.create_new_recipe.tr(),
               style: constants.Styles.mainScreenTitle),
           backgroundColor: constants.Colors.primaryYellow,
           shadowColor: Colors.transparent,

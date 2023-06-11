@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_signin_button/button_view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tasty_cook/bloc/sign_in_cubit/sign_in_cubit.dart';
 import 'package:tasty_cook/bloc/user_cubit/user_cubit.dart';
+import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/routing/app_router.dart';
 import 'package:tasty_cook/widgets/logo_widget.dart';
 import 'package:tasty_cook/widgets/main_button.dart';
@@ -64,7 +66,7 @@ class SignInScreenBody extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Sign In',
+            LocaleKeys.sign_in.tr(),
             style: constants.Styles.title,
           ),
           const SizedBox(
@@ -95,7 +97,7 @@ class SignInScreenBody extends StatelessWidget {
                       height: textFieldHeight,
                       child: MyTextField(
                         controller: _emailEditingController,
-                        hintText: 'Email',
+                        hintText: LocaleKeys.email.tr(),
                         style: constants.Styles.textFieldBlack,
                         keyboardType: TextInputType.emailAddress,
                       ),
@@ -126,7 +128,7 @@ class SignInScreenBody extends StatelessWidget {
                       child: state is SignInLoading
                           ? const MyLoader()
                           : MainButton(
-                              text: 'Sign In',
+                              text: LocaleKeys.sign_in.tr(),
                               onPressed: () => _onSignIn(context),
                             ),
                     ),
@@ -139,7 +141,7 @@ class SignInScreenBody extends StatelessWidget {
             height: 12,
           ),
           Text(
-            '- OR -',
+            '- ${LocaleKeys.or.tr()} -',
             style: constants.Styles.textFieldWhite,
           ),
           const SizedBox(
@@ -159,7 +161,7 @@ class SignInScreenBody extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Forgot your password?',
+              LocaleKeys.forgot_password.tr(),
               style: constants.Styles.textSmallWhite,
             ),
             const SizedBox(
@@ -169,7 +171,7 @@ class SignInScreenBody extends StatelessWidget {
               onPressed: () => context.router.push(const ResetPasswordRoute()),
               padding: EdgeInsets.zero,
               child: Text(
-                'Reset password',
+                LocaleKeys.reset_password.tr(),
                 style: constants.Styles.textSmallGold,
               ),
             )
@@ -179,7 +181,7 @@ class SignInScreenBody extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Don't have an account?",
+              LocaleKeys.dont_have_account.tr(),
               style: constants.Styles.textSmallWhite,
             ),
             const SizedBox(
@@ -190,7 +192,7 @@ class SignInScreenBody extends StatelessWidget {
               // onPressed: null,
               padding: EdgeInsets.zero,
               child: Text(
-                'Sign Up',
+                LocaleKeys.sign_up.tr(),
                 style: constants.Styles.textSmallGold,
               ),
             )

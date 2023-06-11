@@ -24,3 +24,15 @@ class UserError extends UserState {
 
   UserError(this.error);
 }
+
+// PASSWORD
+
+class PasswordLoading extends UserState {}
+
+class PasswordChanged extends UserState {}
+
+class PasswordError extends UserState {
+  final String error;
+
+  PasswordError(this.error);
+}

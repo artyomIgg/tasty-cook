@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_profile_cubit/recipe_profile_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
+import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/routing/app_router.dart';
 
@@ -143,8 +145,8 @@ class RecipeCard extends StatelessWidget {
       SnackBar(
         content: Text(
           recipe.isUserLiked
-              ? 'You have liked this recipe'
-              : 'You have disliked this recipe',
+              ? LocaleKeys.you_have_liked_this_recipe.tr()
+              : LocaleKeys.you_are_disliked_this_recipe.tr(),
           style: constants.Styles.textSmallGold,
         ),
         duration: const Duration(milliseconds: 700),

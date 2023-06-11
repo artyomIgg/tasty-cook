@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_profile_cubit/recipe_profile_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
+import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/widgets/main_button.dart';
 import 'package:tasty_cook/widgets/my_loader.dart';
@@ -114,8 +116,8 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
                 ),
                 Text(
                   state is UploadPhotoSuccess
-                      ? 'Tap to change your dish photo'
-                      : 'Tap to add your dish photo',
+                      ? LocaleKeys.tap_to_change_dish_photo.tr()
+                      : LocaleKeys.tap_to_add_dish_photo.tr(),
                   style: constants.Styles.recipeCardTitle,
                 ),
               ],
@@ -139,7 +141,7 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
             child: Row(
               children: [
                 Text(
-                  'Title of your recipe:',
+                  LocaleKeys.title_of_your_recipe.tr(),
                   style: constants.Styles.title18,
                 ),
               ],
@@ -152,7 +154,7 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
               height: 36,
               child: MyTextField(
                 controller: _titleController,
-                hintText: 'Recipe title: Pasta Carbonara',
+                hintText: LocaleKeys.recipe_title_example.tr(),
               ),
             ),
           ),
@@ -164,7 +166,7 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
             child: Row(
               children: [
                 Text(
-                  'Inner content:',
+                  LocaleKeys.inner_content.tr(),
                   style: constants.Styles.title18,
                 ),
               ],
@@ -192,8 +194,8 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
                 ],
                 toolbarType: editor.ToolbarType.nativeGrid,
               ),
-              htmlEditorOptions: const editor.HtmlEditorOptions(
-                hint: "Your text here...",
+              htmlEditorOptions: editor.HtmlEditorOptions(
+                hint: LocaleKeys.your_recipe_description.tr(),
                 adjustHeightForKeyboard: false,
               ),
               otherOptions: editor.OtherOptions(
@@ -216,7 +218,7 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
                 child: state is RecipeCreating
                     ? const Center(child: MyLoader())
                     : MainButton(
-                        text: widget.isFromProfile ? 'Update' : 'Create',
+                        text: widget.isFromProfile ? LocaleKeys.update.tr() : LocaleKeys.create.tr(),
                         onPressed: () => widget.isFromProfile
                             ? _updateRecipe(context)
                             : _createRecipe(context)),
@@ -264,7 +266,7 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'New recipe was created!',
+            LocaleKeys.new_recipe_was_created.tr(),
             style: constants.Styles.textSmallGold,
           ),
         ),
@@ -296,7 +298,7 @@ class _AddRecipeCreateBodyState extends State<AddRecipeCreateBody> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Your recipe was updated!',
+          LocaleKeys.your_recipe_was_updated.tr(),
           style: constants.Styles.textSmallGold,
         ),
       ),

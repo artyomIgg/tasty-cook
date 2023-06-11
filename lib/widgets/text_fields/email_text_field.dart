@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/widgets/text_fields/my_text_filed.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 
@@ -10,7 +12,7 @@ class EmailTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyTextField(
-      hintText: 'Email',
+      hintText: LocaleKeys.email.tr(),
       style: constants.Styles.textFieldBlack,
       keyboardType: TextInputType.emailAddress,
       onChanged: onChanged,

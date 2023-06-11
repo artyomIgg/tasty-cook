@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tasty_cook/bloc/sign_in_cubit/sign_in_cubit.dart';
+import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/widgets/logo_widget.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/widgets/main_button.dart';
@@ -70,7 +72,7 @@ class SignUpScreenBody extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Sign Up',
+                LocaleKeys.sign_up.tr(),
                 style: constants.Styles.title,
               ),
               const SizedBox(
@@ -99,7 +101,7 @@ class SignUpScreenBody extends StatelessWidget {
                       height: textFieldHeight,
                       child: MyTextField(
                         controller: _emailTextEditingController,
-                        hintText: 'Email',
+                        hintText: LocaleKeys.email.tr(),
                         style: constants.Styles.textFieldBlack,
                         keyboardType: TextInputType.emailAddress,
                       ),
@@ -118,7 +120,7 @@ class SignUpScreenBody extends StatelessWidget {
                       height: textFieldHeight,
                       child: MyTextField(
                         controller: _usernameTextEditingController,
-                        hintText: 'Username',
+                        hintText: LocaleKeys.username.tr(),
                         style: constants.Styles.textFieldBlack,
                       ),
                     ),
@@ -168,7 +170,7 @@ class SignUpScreenBody extends StatelessWidget {
                     state is SignUpLoading ? const MyLoader() : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 60),
                       child: MainButton(
-                        text: 'Sign Up',
+                        text: LocaleKeys.sign_up.tr(),
                         onPressed: () => _onSignUp(context),
                       ),
                     ),
@@ -181,7 +183,7 @@ class SignUpScreenBody extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 120),
                 child: MainButton(
-                  text: 'Back',
+                  text: LocaleKeys.back.tr(),
                   onPressed: () => _onBack(context),
                 ),
               ),
@@ -220,7 +222,7 @@ class SignUpScreenBody extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Account created successfully',
+            LocaleKeys.account_successfully_created.tr(),
             style: constants.Styles.textSmallGold,
           ),
         ),
@@ -231,7 +233,7 @@ class SignUpScreenBody extends StatelessWidget {
           content: Text(
             signInCubit.state is SignUpError
                 ? (signInCubit.state as SignUpError).error
-                : 'Something went wrong',
+                : LocaleKeys.something_went_wrong.tr(),
             style: constants.Styles.textSmallGold,
           ),
         ),

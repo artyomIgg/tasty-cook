@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 import 'package:tasty_cook/bloc/token_cubit/token_cubit.dart';
+import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/models/anonymous_user.dart';
 import 'package:tasty_cook/models/user_model.dart';
 import 'package:tasty_cook/repositories/auth_repository/auth_repository.dart';
@@ -106,8 +108,7 @@ class SignInCubit extends Cubit<SignInState> {
   }
 
   void validatePassword(String password) {
-    const String error =
-        'Password must be at least 6 characters and one number';
+    final String error = LocaleKeys.password_validate.tr();
 
     TextValidator.isPasswordValid(password)
         ? emit(PasswordValidationSuccess())
@@ -115,7 +116,7 @@ class SignInCubit extends Cubit<SignInState> {
   }
 
   bool isRepeatedPasswords(String password1, String password2) {
-    const String error = 'Password does not match';
+    final String error = LocaleKeys.passwords_dont_match.tr();
     final bool result = password1 == password2;
     result
         ? emit(RepeatedPasswordSuccess())
@@ -144,7 +145,7 @@ class SignInCubit extends Cubit<SignInState> {
     if (user != null) {
       emit(SignInSuccess());
     } else {
-      emit(SignInError('Something went wrong'));
+      emit(SignInError(LocaleKeys.something_went_wrong.tr()));
     }
   }
 }

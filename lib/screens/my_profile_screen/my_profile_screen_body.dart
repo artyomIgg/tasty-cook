@@ -12,7 +12,6 @@ class MyProfileScreenBody extends StatelessWidget {
         body: Container(
           alignment: Alignment.center,
           color: constants.Colors.primaryGrey,
-          child: const Text('MyProfile'),
         ),
       ),
     );

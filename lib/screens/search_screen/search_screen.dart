@@ -13,7 +13,7 @@ class SearchScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Settings', style: constants.Styles.mainScreenTitle),
+          title: Text('', style: constants.Styles.mainScreenTitle),
           backgroundColor: constants.Colors.primaryYellow,
           shadowColor: Colors.transparent,
         ),

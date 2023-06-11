@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_logic_cubit/recipe_logic_cubit.dart';
 import 'package:tasty_cook/bloc/recipe_profile_cubit/recipe_profile_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
+import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/models/recipe/recipe_model.dart';
 import 'package:tasty_cook/services/dynamic_links_service/dynamic_link_service.dart';
 import 'package:tasty_cook/utils/qr_code/qr_code_generator.dart';
@@ -77,7 +79,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 70),
               child: MainButton(
-                  text: 'Share recipe', onPressed: () => _showDialog(context)),
+                  text: LocaleKeys.share_recipe.tr(), onPressed: () => _showDialog(context)),
             ),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -151,7 +153,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 60),
                     child: MainButton(
-                      text: 'Share with QR-code',
+                      text: LocaleKeys.share_with_qr_code.tr(),
                       onPressed: () async {
                         final url =
                             await DynamicLinkService.createDynamicLinkRecipe(
@@ -163,7 +165,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 60),
                     child: MainButton(
-                      text: 'Share with link',
+                      text: LocaleKeys.share_with_link.tr(),
                       onPressed: () async {
                         final url =
                             await DynamicLinkService.createDynamicLinkRecipe(
@@ -194,8 +196,8 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
       SnackBar(
         content: Text(
           recipe.isUserLiked
-              ? 'You have liked this recipe'
-              : 'You have disliked this recipe',
+              ? LocaleKeys.you_have_liked_this_recipe.tr()
+              : LocaleKeys.you_are_disliked_this_recipe.tr(),
           style: constants.Styles.textSmallGold,
         ),
         duration: const Duration(milliseconds: 700),
