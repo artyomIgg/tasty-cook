@@ -45,6 +45,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            _photoContainer(context),
             const SizedBox(
               height: 10,
             ),
@@ -79,7 +80,8 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 70),
               child: MainButton(
-                  text: LocaleKeys.share_recipe.tr(), onPressed: () => _showDialog(context)),
+                  text: LocaleKeys.share_recipe.tr(),
+                  onPressed: () => _showDialog(context)),
             ),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -96,6 +98,23 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _photoContainer(BuildContext context) {
+    final RecipeModel recipe = widget.recipe;
+    final image = recipe.imageUrl != null && recipe.imageUrl!.isNotEmpty
+        ? NetworkImage(recipe.imageUrl!)
+        : const AssetImage(constants.Assets.recipePreview);
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      alignment: Alignment.center,
+      height: 180,
+      decoration: BoxDecoration(
+          color: constants.Colors.white.withOpacity(.2),
+          image: DecorationImage(
+                  image: image as ImageProvider<Object>, fit: BoxFit.cover)
+              ),
     );
   }
 
