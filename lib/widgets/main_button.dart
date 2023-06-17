@@ -37,6 +37,7 @@ class MainButton extends StatelessWidget {
             Text(
               text,
               style: constants.Styles.textFieldBlack,
+              textAlign: TextAlign.center,
             ),
       ),
     );

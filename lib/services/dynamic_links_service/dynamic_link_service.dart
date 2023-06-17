@@ -13,7 +13,7 @@ class DynamicLinkService {
   static Future<String> createDynamicLinkRecipe(String id) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://tastycook.page.link',
-      link: Uri.parse('https://tasty-cook.vercel.app/recipe/$id'),
+      link: Uri.parse('https://tastycook.page.link/recipe/$id'),
       androidParameters: const AndroidParameters(
         packageName: 'com.example.tasty_cook',
       ),

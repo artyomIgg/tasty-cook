@@ -157,26 +157,26 @@ class SignInScreenBody extends StatelessWidget {
   Widget _footer(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              LocaleKeys.forgot_password.tr(),
-              style: constants.Styles.textSmallWhite,
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            CupertinoButton(
-              onPressed: () => context.router.push(const ResetPasswordRoute()),
-              padding: EdgeInsets.zero,
-              child: Text(
-                LocaleKeys.reset_password.tr(),
-                style: constants.Styles.textSmallGold,
-              ),
-            )
-          ],
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     Text(
+        //       LocaleKeys.forgot_password.tr(),
+        //       style: constants.Styles.textSmallWhite,
+        //     ),
+        //     const SizedBox(
+        //       width: 6,
+        //     ),
+        //     CupertinoButton(
+        //       onPressed: () => context.router.push(const ResetPasswordRoute()),
+        //       padding: EdgeInsets.zero,
+        //       child: Text(
+        //         LocaleKeys.reset_password.tr(),
+        //         style: constants.Styles.textSmallGold,
+        //       ),
+        //     )
+        //   ],
+        // ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -222,6 +222,13 @@ class SignInScreenBody extends StatelessWidget {
   Future _onGoogleSignIn(BuildContext context) async {
     final SignInCubit signInCubit = BlocProvider.of<SignInCubit>(context);
 
-    await signInCubit.googleSignIn();
+    final bool isSignIn = await signInCubit.googleSignIn();
+
+    if (isSignIn) {
+      final UserCubit userCubit = BlocProvider.of<UserCubit>(context);
+      await userCubit.getUserFormApi();
+
+      await context.router.replace(MainRoute());
+    }
   }
 }

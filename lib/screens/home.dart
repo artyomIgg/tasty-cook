@@ -59,6 +59,7 @@ class _HomeState extends State<Home> {
               },
               builder: (context, state) {
                 return MaterialApp.router(
+                  debugShowCheckedModeBanner: false,
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,

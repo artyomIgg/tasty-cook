@@ -186,7 +186,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
                     height: 32,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 60),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: MainButton(
                       text: LocaleKeys.share_with_qr_code.tr(),
                       onPressed: () async {
@@ -198,7 +198,7 @@ class _RecipeScreenBodyState extends State<RecipeScreenBody> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 60),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: MainButton(
                       text: LocaleKeys.share_with_link.tr(),
                       onPressed: () async {

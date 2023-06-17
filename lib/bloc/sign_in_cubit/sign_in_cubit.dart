@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 import 'package:tasty_cook/bloc/token_cubit/token_cubit.dart';
 import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/models/anonymous_user.dart';
-import 'package:tasty_cook/models/user_model.dart';
 import 'package:tasty_cook/repositories/auth_repository/auth_repository.dart';
 import 'package:tasty_cook/utils/text_validators/text_validator.dart';
 
@@ -125,27 +124,36 @@ class SignInCubit extends Cubit<SignInState> {
     return result;
   }
 
-  Future googleSignIn() async {
+  Future<bool> googleSignIn() async {
     final GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: [
         'email',
-        'https://www.googleapis.com/auth/contacts.readonly',
       ],
     );
 
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
     if (googleSignInAccount == null) {
-      return null;
+      return false;
     }
 
-    final UserModel? user =
-        await AuthRepository().logInWithGoogle(token: googleSignInAccount.id);
+    final GoogleSignInAuthentication account =
+        await googleSignInAccount.authentication;
 
-    if (user != null) {
+    if (account.idToken == null) {
+      return false;
+    }
+
+    final String? token =
+        await AuthRepository().logInWithGoogle(token: account.idToken!);
+
+    if (token != null) {
+      await TokenCubit().saveToken(token);
       emit(SignInSuccess());
+      return true;
     } else {
       emit(SignInError(LocaleKeys.something_went_wrong.tr()));
+      return false;
     }
   }
 }
