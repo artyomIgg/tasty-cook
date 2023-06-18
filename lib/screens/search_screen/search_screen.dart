@@ -5,6 +5,7 @@ import 'package:tasty_cook/bloc/recipe_cubit/recipe_cubit.dart';
 import 'package:tasty_cook/constants/constants.dart' as constants;
 import 'package:tasty_cook/screens/search_screen/search_screen_body.dart';
 import 'package:tasty_cook/screens/search_screen/widgets/search_widget.dart';
+import 'package:tasty_cook/widgets/my_loader.dart';
 
 @RoutePage()
 class SearchScreen extends StatelessWidget {
@@ -24,8 +25,11 @@ class SearchScreen extends StatelessWidget {
         body: BlocBuilder<RecipeCubit, RecipeState>(
           builder: (context, state) {
             if (state is RecipeSearchLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: Container(
+                    color: constants.Colors.primaryGrey,
+                    alignment: Alignment.center,
+                    child: const MyLoader()),
               );
             } else if (state is RecipeSearchLoaded) {
               return SearchScreenBody(
@@ -35,9 +39,14 @@ class SearchScreen extends StatelessWidget {
 
             return Center(
               child: Container(
-                  color: constants.Colors.primaryGrey,
-                  alignment: Alignment.center,
-                  child: Text('Something went wrong!')),
+                color: constants.Colors.primaryGrey,
+                alignment: Alignment.center,
+                child: const Icon(
+                  Icons.search,
+                  color: constants.Colors.white,
+                  size: 100,
+                ),
+              ),
             );
           },
         ),

@@ -78,9 +78,12 @@ class RecipeCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        recipe.title,
-                        style: constants.Styles.recipeCardTitle,
+                      Expanded(
+                        child: Text(
+                          recipe.title,
+                          style: constants.Styles.recipeCardTitle,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       Row(
                         children: [

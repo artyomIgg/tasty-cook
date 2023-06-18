@@ -31,7 +31,7 @@ class AddRecipeScreenBody extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 50),
             child: MainButton(
               onPressed: () => _onTapButton(context),
-              text: 'Add new recipe',
+              text: LocaleKeys.add_new_recipe.tr(),
             ),
           ),
         ],
