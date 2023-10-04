@@ -6,6 +6,7 @@ import 'package:tasty_cook/bloc/token_cubit/token_cubit.dart';
 import 'package:tasty_cook/l10n/locale_keys.g.dart';
 import 'package:tasty_cook/models/anonymous_user.dart';
 import 'package:tasty_cook/repositories/auth_repository/auth_repository.dart';
+import 'package:tasty_cook/services/database_service/database_service.dart';
 import 'package:tasty_cook/utils/text_validators/text_validator.dart';
 
 part 'sign_in_state.dart';
@@ -148,6 +149,8 @@ class SignInCubit extends Cubit<SignInState> {
         await AuthRepository().logInWithGoogle(token: account.idToken!);
 
     if (token != null) {
+      await DatabaseService()
+          .saveIsUserAuthWithGoogle(isUserAuthWithGoogle: true);
       await TokenCubit().saveToken(token);
       emit(SignInSuccess());
       return true;
@@ -155,5 +158,16 @@ class SignInCubit extends Cubit<SignInState> {
       emit(SignInError(LocaleKeys.something_went_wrong.tr()));
       return false;
     }
+  }
+
+  Future<bool> signOutFromGoogle() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+      ],
+    );
+    await googleSignIn.signOut();
+
+    return true;
   }
 }

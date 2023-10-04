@@ -1,12 +1,11 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class LocalizationService {
   static const List<Locale> _supportedLocales = [
-    Locale(
-      'en',
-      'US',
-    ),
+    Locale('en', 'US'),
     Locale('uk', 'UA'),
   ];
 
@@ -21,5 +20,14 @@ class LocalizationService {
       fallbackLocale: _fallbackLocale,
       child: child,
     );
+  }
+}
+
+class LocalizationStreamHelper {
+  static StreamController<Locale> localizationStreamController =
+      StreamController<Locale>.broadcast();
+
+  static void updateStream(Locale locale) {
+    LocalizationStreamHelper.localizationStreamController.add(locale);
   }
 }

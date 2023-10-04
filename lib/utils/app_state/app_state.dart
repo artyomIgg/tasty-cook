@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:tasty_cook/bloc/sign_in_cubit/sign_in_cubit.dart';
 import 'package:tasty_cook/services/database_service/database_service.dart';
 
 enum LoggedState {
@@ -27,10 +30,14 @@ class AppState {
     }
   }
 
-  Future<void> logOut() async {
+  Future<void> logOut(BuildContext context) async {
     await DatabaseService().cleanToken();
     await DatabaseService().cleanUser();
+    await DatabaseService().cleanIsUserAuthWithGoogle();
     AppState.token = '';
     AppState.logState = LoggedState.logout;
+
+    final SignInCubit cubit = BlocProvider.of<SignInCubit>(context);
+    await cubit.signOutFromGoogle();
   }
 }

@@ -66,4 +66,29 @@ class DatabaseService {
 
     await prefs.remove(DatabaseKeys.token);
   }
+
+  // IS USER AUTH WITH GOOGLE
+
+  Future<void> saveIsUserAuthWithGoogle(
+      {required bool isUserAuthWithGoogle}) async {
+    await _sharedPreferencesInit();
+
+    await prefs.setBool(
+        DatabaseKeys.isUserAuthWithGoogle, isUserAuthWithGoogle);
+  }
+
+  Future<bool?> getIsUserAuthWithGoogle() async {
+    await _sharedPreferencesInit();
+
+    final bool? isUserAuthWithGoogle =
+        prefs.getBool(DatabaseKeys.isUserAuthWithGoogle);
+
+    return isUserAuthWithGoogle;
+  }
+
+  Future<void> cleanIsUserAuthWithGoogle() async {
+    await _sharedPreferencesInit();
+
+    await prefs.remove(DatabaseKeys.isUserAuthWithGoogle);
+  }
 }

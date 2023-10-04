@@ -19,10 +19,14 @@ class MenuItem {
 class MenuItems {
   static final List<MenuItem> firstItems = [pass, loc];
   static final List<MenuItem> secondItems = [logout];
+  static final List<MenuItem> firstItems2 = [loc];
 
-  static final pass = MenuItem(text: LocaleKeys.change_password.tr(), icon: Icons.password);
-  static final loc = MenuItem(text: LocaleKeys.localization.tr(), icon: Icons.language);
-  static final logout = MenuItem(text: LocaleKeys.logout.tr(), icon: Icons.logout);
+  static const pass =
+      MenuItem(text: LocaleKeys.change_password, icon: Icons.password);
+  static const loc =
+      MenuItem(text: LocaleKeys.localization, icon: Icons.language);
+  static const logout =
+      MenuItem(text: LocaleKeys.logout, icon: Icons.logout);
 
   static Widget buildItem(MenuItem item) {
     return Row(
@@ -32,7 +36,7 @@ class MenuItems {
           width: 10,
         ),
         Text(
-          item.text,
+          item.text.tr(),
           style: const TextStyle(
             color: Colors.white,
           ),
@@ -42,7 +46,7 @@ class MenuItems {
   }
 
   static onChanged(BuildContext context, MenuItem item) {
-    if(item == MenuItems.logout) {
+    if (item == MenuItems.logout) {
       onLogout(context);
     } else if (item == MenuItems.pass) {
       _showPasswordDialog(context);
@@ -80,6 +84,6 @@ class MenuItems {
   static Future<void> onLogout(BuildContext context) async {
     final AppStateCubit cubit = BlocProvider.of<AppStateCubit>(context);
 
-    await cubit.logOut();
+    await cubit.logOut(context);
   }
 }

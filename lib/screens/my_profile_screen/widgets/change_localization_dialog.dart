@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tasty_cook/l10n/locale_keys.g.dart';
+import 'package:tasty_cook/services/localization_service/localization_service.dart';
 import 'package:tasty_cook/widgets/main_button.dart';
 
 class ChangeLocalizationDialog extends StatefulWidget {
@@ -84,5 +85,6 @@ class _ChangeLocalizationDialogState extends State<ChangeLocalizationDialog> {
 
   void setLocale(Locale locale) {
     context.setLocale(locale);
+    LocalizationStreamHelper.updateStream(locale);
   }
 }

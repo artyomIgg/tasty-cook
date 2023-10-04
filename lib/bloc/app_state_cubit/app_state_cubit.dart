@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:tasty_cook/utils/app_state/app_state.dart';
 
@@ -24,8 +25,8 @@ class AppStateCubit extends Cubit<AppStateState> {
     emit(AppStateChangeSuccess());
   }
 
-  Future<void> logOut() async {
-    await appState.logOut();
+  Future<void> logOut(BuildContext context) async {
+    await appState.logOut(context);
     emit(AppStateLogout());
 
     emit(AppStateChangeSuccess());

@@ -51,6 +51,8 @@
   "recipe_deleted_successfully": "Recipe deleted successfully",
   "yes": "Yes",
   "no": "No",
+  "you_are_disliked_this_recipe": "You are disliked this recipe",
+  "you_have_liked_this_recipe": "You have liked this recipe",
 
   "hello_user": "Hello, {userName}!",
   "favorites": "Favorites",
